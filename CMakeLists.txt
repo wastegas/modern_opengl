@@ -19,11 +19,12 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 add_executable(hello ${CMAKE_SOURCE_DIR}/src/hello.cpp)
 add_executable(hello_triangle ${CMAKE_SOURCE_DIR}/src/hello_triangle.cpp)
+add_executable(rectangle ${CMAKE_SOURCE_DIR}/src/rectangle.cpp)
 
 add_library("glad" "${CMAKE_SOURCE_DIR}/src/glad.c")
 target_include_directories("glad" PRIVATE "${CMAKE_SOURCE_DIR}/include")
 set(LINK_LIBS ${OPENGL_gl_LIBRARY} glfw dl)
 target_link_libraries(hello "glad" ${LINK_LIBS})
 target_link_libraries(hello_triangle "glad" ${LINK_LIBS})
-
+target_link_libraries(rectangle "glad" ${LINK_LIBS})
 			  
