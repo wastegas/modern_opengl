@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+project(hello LANGUAGES C CXX)
+set(HELLO_MAJOR_VERSION 0)
+set(HELLO_MINOR_VERSION 1)
+SET(HELLO_VERSION ${HELLO_MINOR_VERSION}.${HELLO_MAJOR_VERSION})
+
+message(STATUS "is the C++ compiler loaded? ${CMAKE_CXX_COMPILER_LOADED}")
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_C_STANDARD 99)
+
+find_package(OpenGL REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(PkgConfig REQUIRED)
+
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+add_executable(hello ${CMAKE_SOURCE_DIR}/src/hello.cpp)
+
+add_library("glad" "${CMAKE_SOURCE_DIR}/src/glad.c")
+target_include_directories("glad" PRIVATE "${CMAKE_SOURCE_DIR}/include")
+set(LINK_LIBS ${OPENGL_gl_LIBRARY} glfw dl)
+target_link_libraries(hello "glad" ${LINK_LIBS})
+
+			  
