@@ -31,22 +31,31 @@ int main()
     }
 
   // points for our triangle
-  float vertices[] = {
+  float tri1[] = {
 		      // first triangle
 		      0.5f,  0.5f, 0.0f, // top right
 		      0.5f, -0.45f, 0.0f, // bottom right
-		     -0.45f,  0.5f, 0.0f, // top left
+		     -0.45f,  0.5f, 0.0f // top left
+  };
+  float tri2[] = {
 		      // second triangle
 		      0.45f, -0.5f, 0.0f, // bottom right
 		      -0.5f, -0.5f, 0.0f, // bottom left
 		      -0.5f, 0.45f, 0.0f  // top left
   };
 
-  unsigned int VBO;  // vertex buffer object
-  glGenBuffers(1, &VBO); // generate with buffer id 1
-  glBindBuffer(GL_ARRAY_BUFFER, VBO); // create a GL_ARRAY_BUFFER
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices),
-	       vertices, GL_STATIC_DRAW); // copy our array into buffer
+  unsigned int VBO[2];  // vertex buffer objects
+  glGenBuffers(2, VBO); // generate multiple VBOs
+
+  // first triangle
+  glBindBuffer(GL_ARRAY_BUFFER, VBO[0]); // create a GL_ARRAY_BUFFER
+  glBufferData(GL_ARRAY_BUFFER, sizeof(tri1),
+	       tri1, GL_STATIC_DRAW); // copy our array into buffer
+  // second triangle
+  glBindBuffer(GL_ARRAY_BUFFER, VBO[1]); // create a GL_ARRAY_BUFFER
+  glBufferData(GL_ARRAY_BUFFER, sizeof(tri2),
+	       tri2, GL_STATIC_DRAW); // copy our array into buffer
+
 
   // vertex shader source
   const char *vs =
@@ -123,14 +132,21 @@ int main()
   glDeleteShader(fragmentShader);
 
   // vertex array object
-  unsigned int VAO;
-  glGenVertexArrays(1, &VAO);
-  glBindVertexArray(VAO);
-  glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  
+  unsigned int VAO[2];
+  glGenVertexArrays(2, VAO);
+  // first triangle
+  glBindVertexArray(VAO[0]);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
 			(void*)0);
   glEnableVertexAttribArray(0);
+  // second triangle
+  glBindVertexArray(VAO[1]);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
+			(void*)0);
+  glEnableVertexAttribArray(0);
+
 
 
   glViewport(0, 0, 800, 600);
@@ -141,8 +157,13 @@ int main()
       glClear(GL_COLOR_BUFFER_BIT);
 
       glUseProgram(shaderProgram);
-      glBindVertexArray(VAO);
-      glDrawArrays(GL_TRIANGLES, 0, 6);
+      // draw first trinagle
+      glBindVertexArray(VAO[0]);
+      glDrawArrays(GL_TRIANGLES, 0, 3);
+      // draw second triangle
+      glBindVertexArray(VAO[1]);
+      glDrawArrays(GL_TRIANGLES, 0, 3);
+      
       
       processInput(window);
       
