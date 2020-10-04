@@ -1,3 +1,4 @@
+/* Draw 2 traingles by adding more vertices. */
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
