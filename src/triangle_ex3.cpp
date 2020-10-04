@@ -1,3 +1,4 @@
+/* create separate fragment shaders for orange and yellow */
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
