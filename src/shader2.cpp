@@ -1,8 +1,9 @@
-/* demonstrate input and output in shader */
-/* the vertex shader will output a attribute to the fragment shader */
+/* demonstrate uniform shader */
+/* the fragment shader will receive data from our application */
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <cmath>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -49,21 +50,19 @@ int main()
   const char *vs =
     "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
-    "out vec4 vertexColor;\n"
     "void main()\n"
     "{\n"
     " gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0f);\n"
-    " vertexColor = vec4(0.5, 0.0, 0.0, 1.0);\n"
     "}\0";
 
   // fragment shader source
   const char *fs =
     "#version 330 core\n"
     "out vec4 FragColor;\n"
-    "in vec4 vertexColor;\n"
+    "uniform vec4 ourColor;\n"
     "void main()\n"
     "{\n"
-    " FragColor = vertexColor;\n"
+    " FragColor = ourColor;\n"
     "}\0";
 
   // vertex shader object
@@ -141,7 +140,15 @@ int main()
       glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT);
 
+      float timeValue = glfwGetTime();
+      float greenValue = sin(timeValue) / 2.0f + 0.5f;
+      // get our uniform variable from our shader program
+      int vertexColorLocation = glGetUniformLocation(shaderProgram,
+						     "ourColor");
+
+      
       glUseProgram(shaderProgram);
+      glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
       glBindVertexArray(VAO);
       glDrawArrays(GL_TRIANGLES, 0, 3);
       
