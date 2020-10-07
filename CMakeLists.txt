@@ -28,10 +28,18 @@ add_executable(shader2 ${CMAKE_SOURCE_DIR}/src/shader2.cpp)
 add_executable(shader3 ${CMAKE_SOURCE_DIR}/src/shader3.cpp)
 add_executable(shader_class ${CMAKE_SOURCE_DIR}/src/shader_class.cpp)
 add_executable(shader_ex1 ${CMAKE_SOURCE_DIR}/src/shader_ex1.cpp)
+add_executable(shader_ex2 ${CMAKE_SOURCE_DIR}/src/shader_ex2.cpp)
+add_executable(shader_ex3 ${CMAKE_SOURCE_DIR}/src/shader_ex3.cpp)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/vs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/fs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
+  COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/vsoff.glsi ${CMAKE_CURRENT_BINARY_DIR}
+  COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/vsex3.glsl ${CMAKE_CURRENT_BINARY_DIR}
+  COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/fsex3.glsl ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
 
 add_library("glad" "${CMAKE_SOURCE_DIR}/src/glad.c")
@@ -48,3 +56,5 @@ target_link_libraries(shader2 "glad" ${LINK_LIBS})
 target_link_libraries(shader3 "glad" ${LINK_LIBS})
 target_link_libraries(shader_class "glad" ${LINK_LIBS})
 target_link_libraries(shader_ex1 "glad" ${LINK_LIBS})
+target_link_libraries(shader_ex2 "glad" ${LINK_LIBS})
+target_link_libraries(shader_ex3 "glad" ${LINK_LIBS})
