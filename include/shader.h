@@ -29,8 +29,8 @@ class Shader
     try
       {
 	// open files
-	vShaderFile.open(const vertexPath);
-	fShaderFile.open(const fragmentPath);
+	vShaderFile.open(vertexPath);
+	fShaderFile.open(fragmentPath);
 	// read file's buffer contents into streams
 	std::stringstream vShaderStream, fShaderStream;
 	vShaderStream << vShaderFile.rdbuf();
@@ -69,7 +69,7 @@ class Shader
       };
 
     // fragment shader
-    fragment = glCreateShader(GL_VERTEX_SHADER);
+    fragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment, 1, &fShaderCode, NULL);
     glCompileShader(fragment);
     // print compile errors if any
@@ -111,11 +111,11 @@ class Shader
   }
   void setInt(const std::string &name, int value) const
   {
-    glUnifrom1i(glGetUniformLocation(ID, name,c_str()), value);
+    glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
   }
   void setFloat(const std::string &name, float value) const
   {
-    glUnifrom1f(glGetUnifromLocation(ID, name.c_str(), value);
+    glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
   }
 };
 
