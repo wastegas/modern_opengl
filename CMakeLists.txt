@@ -26,6 +26,12 @@ add_executable(triangle_ex3 ${CMAKE_SOURCE_DIR}/src/triangle_ex3.cpp)
 add_executable(shader1 ${CMAKE_SOURCE_DIR}/src/shader1.cpp)
 add_executable(shader2 ${CMAKE_SOURCE_DIR}/src/shader2.cpp)
 add_executable(shader3 ${CMAKE_SOURCE_DIR}/src/shader3.cpp)
+add_executable(shader_class ${CMAKE_SOURCE_DIR}/src/shader_class.cpp)
+
+configure_file(${CMAKE_SOURCE_DIR}/src/vs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
+  COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/fs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
+  COPYONLY)
 
 add_library("glad" "${CMAKE_SOURCE_DIR}/src/glad.c")
 target_include_directories("glad" PRIVATE "${CMAKE_SOURCE_DIR}/include")
@@ -39,4 +45,5 @@ target_link_libraries(triangle_ex3 "glad" ${LINK_LIBS})
 target_link_libraries(shader1 "glad" ${LINK_LIBS})
 target_link_libraries(shader2 "glad" ${LINK_LIBS})
 target_link_libraries(shader3 "glad" ${LINK_LIBS})
+target_link_libraries(shader_class "glad" ${LINK_LIBS})
 			  
