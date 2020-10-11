@@ -47,6 +47,10 @@ configure_file(${CMAKE_SOURCE_DIR}/src/vstex1.glsl ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/fstex1.glsl ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/vstex2.glsl ${CMAKE_CURRENT_BINARY_DIR}
+  COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/fstex2.glsl ${CMAKE_CURRENT_BINARY_DIR}
+  COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/resources/container.jpg
   ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/resources/awesomeface.png
