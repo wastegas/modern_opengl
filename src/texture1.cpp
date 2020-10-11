@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "shader.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -33,14 +35,48 @@ int main()
       return -1;
     }
 
+
+  unsigned int texture;
+  glGenTextures(1, &texture);
+  glBindTexture(GL_TEXTURE_2D, texture);
+
+  // set the texture wrapping/filtering options
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  int width, height, nrChannels;
+  unsigned char *data = stbi_load("container.jpg", &width, &height,
+				  &nrChannels, 0);
+  if (data)
+    {
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
+	       GL_UNSIGNED_BYTE, data);
+      glGenerateMipmap(GL_TEXTURE_2D);
+    }
+  else
+    {
+      std::cout << "Failed to load texture" << std::endl;
+    }
+
+  // free the image after generating
+  stbi_image_free(data);
+  
   // points for our triangle
   float vertices[] = {
 		      // positions        colors
-		      -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom right
-		      0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // bottom left
-		      0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f    // top
+		      0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom right
+		      0.5f,-0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // bottom left
+		      -0.5f,-0.5f,0.0f, 0.0f, 0.0f, 1.0f,
+		     -0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f    // top
   };
 
+  unsigned int indices[] = {
+			    0, 1, 3, // first triangle
+			    1, 2, 3  // second triangle
+  };
+  
   unsigned int VBO;  // vertex buffer object
   glGenBuffers(1, &VBO); // generate with buffer id 1
   glBindBuffer(GL_ARRAY_BUFFER, VBO); // create a GL_ARRAY_BUFFER
@@ -66,6 +102,12 @@ int main()
 			(void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
+  // element buffer object
+  unsigned int EBO;
+  glGenBuffers(1, &EBO);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
+	       GL_STATIC_DRAW);
 
   glViewport(0, 0, 800, 600);
 
@@ -75,8 +117,8 @@ int main()
       glClear(GL_COLOR_BUFFER_BIT);
 
       ourShader.use();
+      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
       glBindVertexArray(VAO);
-      glDrawArrays(GL_TRIANGLES, 0, 3);
       
       processInput(window);
       
