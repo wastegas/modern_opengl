@@ -46,6 +46,8 @@ configure_file(${CMAKE_SOURCE_DIR}/src/vstex1.glsl ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/fstex1.glsl ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/resources/container.jpg
+  ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 add_library("glad" "${CMAKE_SOURCE_DIR}/src/glad.c")
 target_include_directories("glad" PRIVATE "${CMAKE_SOURCE_DIR}/include")
