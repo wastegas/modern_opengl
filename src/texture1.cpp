@@ -121,6 +121,7 @@ int main()
       glClear(GL_COLOR_BUFFER_BIT);
 
       ourShader.use();
+      // assign the texture to the fragment shader's sampler
       glBindTexture(GL_TEXTURE_2D, texture);
       glBindVertexArray(VAO);
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
