@@ -1,5 +1,5 @@
-/* demonstrate more attributes for vertex shader */
-/* this will include color */
+/* demonstrate using textures */
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "shader.h"
