@@ -35,6 +35,7 @@ add_executable(texture2 ${CMAKE_SOURCE_DIR}/src/texture2.cpp)
 add_executable(textex1 ${CMAKE_SOURCE_DIR}/src/textex1.cpp)
 add_executable(textex2 ${CMAKE_SOURCE_DIR}/src/textex2.cpp)
 add_executable(textex3 ${CMAKE_SOURCE_DIR}/src/textex3.cpp)
+add_executable(textex4 ${CMAKE_SOURCE_DIR}/src/textex4.cpp)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/vs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
@@ -53,6 +54,8 @@ configure_file(${CMAKE_SOURCE_DIR}/src/fstex1.glsl ${CMAKE_CURRENT_BINARY_DIR}
 configure_file(${CMAKE_SOURCE_DIR}/src/vstex2.glsl ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/fstex2.glsl ${CMAKE_CURRENT_BINARY_DIR}
+  COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/fstex3.glsl ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/resources/container.jpg
   ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
@@ -80,3 +83,4 @@ target_link_libraries(texture2 "glad" ${LINK_LIBS})
 target_link_libraries(textex1 "glad" ${LINK_LIBS})
 target_link_libraries(textex2 "glad" ${LINK_LIBS})
 target_link_libraries(textex3 "glad" ${LINK_LIBS})
+target_link_libraries(textex4 "glad" ${LINK_LIBS})
