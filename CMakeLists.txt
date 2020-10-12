@@ -33,6 +33,7 @@ add_executable(shader_ex3 ${CMAKE_SOURCE_DIR}/src/shader_ex3.cpp)
 add_executable(texture1 ${CMAKE_SOURCE_DIR}/src/texture1.cpp)
 add_executable(texture2 ${CMAKE_SOURCE_DIR}/src/texture2.cpp)
 add_executable(textex1 ${CMAKE_SOURCE_DIR}/src/textex1.cpp)
+add_executable(textex2 ${CMAKE_SOURCE_DIR}/src/textex2.cpp)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/vs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
@@ -76,3 +77,4 @@ target_link_libraries(shader_ex3 "glad" ${LINK_LIBS})
 target_link_libraries(texture1 "glad" ${LINK_LIBS})
 target_link_libraries(texture2 "glad" ${LINK_LIBS})
 target_link_libraries(textex1 "glad" ${LINK_LIBS})
+target_link_libraries(textex2 "glad" ${LINK_LIBS})
