@@ -37,6 +37,7 @@ add_executable(textex2 ${CMAKE_SOURCE_DIR}/src/textex2.cpp)
 add_executable(textex3 ${CMAKE_SOURCE_DIR}/src/textex3.cpp)
 add_executable(textex4 ${CMAKE_SOURCE_DIR}/src/textex4.cpp)
 add_executable(transformation1 ${CMAKE_SOURCE_DIR}/src/transformation1.cpp)
+add_executable(transformation2 ${CMAKE_SOURCE_DIR}/src/transformation2.cpp)
 
 
 configure_file(${CMAKE_SOURCE_DIR}/src/vs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
@@ -91,3 +92,5 @@ target_link_libraries(textex2 "glad" ${LINK_LIBS})
 target_link_libraries(textex3 "glad" ${LINK_LIBS})
 target_link_libraries(textex4 "glad" ${LINK_LIBS})
 target_link_libraries(transformation1 "glad" ${LINK_LIBS})
+target_link_libraries(transformation2 "glad" ${LINK_LIBS})
+
