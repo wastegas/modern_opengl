@@ -40,6 +40,7 @@ add_executable(transformation1 ${CMAKE_SOURCE_DIR}/src/transformation1.cpp)
 add_executable(transformation2 ${CMAKE_SOURCE_DIR}/src/transformation2.cpp)
 add_executable(trans_ex1 ${CMAKE_SOURCE_DIR}/src/trans_ex1.cpp)
 add_executable(trans_ex2 ${CMAKE_SOURCE_DIR}/src/trans_ex2.cpp)
+add_executable(coord1 ${CMAKE_SOURCE_DIR}/src/coord1.cpp)
 
 
 configure_file(${CMAKE_SOURCE_DIR}/src/vs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
@@ -65,6 +66,10 @@ configure_file(${CMAKE_SOURCE_DIR}/src/fstex3.glsl ${CMAKE_CURRENT_BINARY_DIR}
 configure_file(${CMAKE_SOURCE_DIR}/src/trans1.vs ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/trans1.fs ${CMAKE_CURRENT_BINARY_DIR}
+  COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/coord1.vs ${CMAKE_CURRENT_BINARY_DIR}
+  COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/coord1.fs ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/resources/container.jpg
   ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
@@ -97,3 +102,4 @@ target_link_libraries(transformation1 "glad" ${LINK_LIBS})
 target_link_libraries(transformation2 "glad" ${LINK_LIBS})
 target_link_libraries(trans_ex1 "glad" ${LINK_LIBS})
 target_link_libraries(trans_ex2 "glad" ${LINK_LIBS})
+target_link_libraries(coord1 "glad" ${LINK_LIBS})
