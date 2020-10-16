@@ -101,11 +101,11 @@ int main()
   
   // points for our rectangle created with two triangles
   float vertices[] = {
-	  // positions      colors            texture coords
-	  0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
-	  0.5f,-0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
-	  -0.5f,-0.5f,0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
-	  -0.5f, 0.5f, 0.0f, 0.0f, 0.0f,1.0f, 0.0f, 1.0f// top left
+	  // positions      texture coords
+	  0.5f, 0.5f, 0.0f, 1.0f, 1.0f, // top right
+	  0.5f,-0.5f, 0.0f, 1.0f, 0.0f, // bottom right
+	  -0.5f,-0.5f,0.0f, 0.0f, 0.0f, // bottom left
+	  -0.5f, 0.5f, 0.0f, 0.0f, 1.0f// top left
   };
 
   unsigned int indices[] = {
@@ -129,19 +129,15 @@ int main()
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
   // positions attribute
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
 			(void*)0);
   glEnableVertexAttribArray(0);
 
-  // colour attribute
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
+  // texture attribute
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
 			(void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
-  // texture attribute
-  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
-			(void*)(6 * sizeof(float)));
-  glEnableVertexAttribArray(2);
-
+  
   // element buffer object
   unsigned int EBO;
   glGenBuffers(1, &EBO);
