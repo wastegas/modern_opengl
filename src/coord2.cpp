@@ -102,10 +102,49 @@ int main()
   // points for our rectangle created with two triangles
   float vertices[] = {
 	  // positions      texture coords
-	  0.5f, 0.5f, 0.0f, 1.0f, 1.0f, // top right
-	  0.5f,-0.5f, 0.0f, 1.0f, 0.0f, // bottom right
-	  -0.5f,-0.5f,0.0f, 0.0f, 0.0f, // bottom left
-	  -0.5f, 0.5f, 0.0f,0.0f, 1.0f// top left
+	  -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 
+	   0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 
+	   0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 
+	   0.5f,  0.5f, -0.5f, 1.0f, 1.0f,
+	  -0.5f,  0.5f, -0.5f, 0.0f, 0.0f,
+	  -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+
+	  -0.5f, -0.5f,  0.5f, 0.0f, 0.0f,
+           0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+	   0.5f,  0.5f,  0.5f, 1.0f, 1.0f,
+	   0.5f,  0.5f,  0.5f, 1.0f, 1.0f,
+	  -0.5f,  0.5f,  0.5f, 0.0f, 1.0f,
+	  -0.5f, -0.5f,  0.5f, 0.0f, 0.0f,
+
+	  -0.5f,  0.5f,  0.5f, 1.0f, 0.0f,
+	  -0.5f,  0.5f, -0.5f, 1.0f, 1.0f,
+	  -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+	  -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+	  -0.5f, -0.5f,  0.5f, 0.0f, 0.0f,
+	  -0.5f,  0.5f,  0.5f, 1.0f, 0.0f,
+
+	   0.5f,  0.5f,  0.5f, 1.0f, 0.0f,
+	   0.5f,  0.5f, -0.5f, 1.0f, 1.0f,
+	   0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+	   0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+	   0.5f, -0.5f,  0.5f, 0.0f, 0.0f,
+	   0.5f,  0.5f,  0.5f, 1.0f, 0.0f,
+
+	  -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+	   0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+	   0.5f, -0.5f,  0.5f, 1.0f, 0.0f,
+	   0.5f, -0.5f,  0.5f, 1.0f, 0.0f,
+	  -0.5f, -0.5f,  0.5f, 0.0f, 0.0f,
+	  -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+
+	  -0.5f,  0.5f, -0.5f, 0.0f, 1.0f,
+	   0.5f,  0.5f, -0.5f, 1.0f, 1.0f,
+	   0.5f,  0.5f,  0.5f, 1.0f, 0.0f,
+	   0.5f,  0.5f,  0.5f, 1.0f, 0.0f,
+	  -0.5f,  0.5f,  0.5f, 0.0f, 0.0f,
+	  -0.5f,  0.5f, -0.5f, 0.0f, 1.0f
+
+
   };
 
   unsigned int indices[] = {
@@ -126,6 +165,7 @@ int main()
   unsigned int VAO;
   glGenVertexArrays(1, &VAO);
   glBindVertexArray(VAO);
+
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
   // positions attribute
@@ -162,8 +202,8 @@ int main()
       glBindTexture(GL_TEXTURE_2D, texture1);
       glActiveTexture(GL_TEXTURE1);
       glBindTexture(GL_TEXTURE_2D, texture2);
-      glBindVertexArray(VAO);
-      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+      
+      
       
       ourShader.use();
 
@@ -172,8 +212,8 @@ int main()
       glm::mat4 view = glm::mat4(1.0f);
       glm::mat4 projection = glm::mat4(1.0f);
       // rotate backwards around x-axis
-      model = glm::rotate(model, glm::radians(-55.0f),
-			  glm::vec3(1.0f, 0.0f, 0.0f));
+      model = glm::rotate(model, (float)glfwGetTime(),
+			  glm::vec3(0.5f, 1.0f, 0.0f));
       // move camera backwards on z-axis (negative towards the front)
       view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
       // standard setting for projection
@@ -190,6 +230,9 @@ int main()
       glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
       // note this can be set outside of the rendering
       glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, &projection[0][0]);
+
+      glBindVertexArray(VAO);
+      glDrawArrays(GL_TRIANGLES, 0, 36);
       
       processInput(window);
       
