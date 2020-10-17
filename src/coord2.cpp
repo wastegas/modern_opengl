@@ -44,6 +44,8 @@ int main()
       return -1;
     }
 
+  // configure global opengl state
+  glEnable(GL_DEPTH_TEST);
 
   unsigned int texture1, texture2;
   glGenTextures(1, &texture1);
@@ -194,7 +196,8 @@ int main()
   while(!glfwWindowShouldClose(window))
     {
       glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-      glClear(GL_COLOR_BUFFER_BIT);
+      // also clear the depth buffer
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
       // assign the texture to the fragment shader's sampler
