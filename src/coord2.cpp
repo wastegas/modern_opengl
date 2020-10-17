@@ -132,7 +132,7 @@ int main()
 	   0.5f, -0.5f,  0.5f, 0.0f, 0.0f,
 	   0.5f,  0.5f,  0.5f, 1.0f, 0.0f,
 
-	  -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+	  -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
 	   0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
 	   0.5f, -0.5f,  0.5f, 1.0f, 0.0f,
 	   0.5f, -0.5f,  0.5f, 1.0f, 0.0f,
@@ -215,7 +215,7 @@ int main()
       glm::mat4 view = glm::mat4(1.0f);
       glm::mat4 projection = glm::mat4(1.0f);
       // rotate backwards around x-axis
-      model = glm::rotate(model, (float)glfwGetTime(),
+      model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f),
 			  glm::vec3(0.5f, 1.0f, 0.0f));
       // move camera backwards on z-axis (negative towards the front)
       view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
