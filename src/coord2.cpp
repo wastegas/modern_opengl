@@ -149,11 +149,6 @@ int main()
 
   };
 
-  unsigned int indices[] = {
-			    0, 1, 3, // first triangle
-			    1, 2, 3  // second triangle
-  };
-  
   unsigned int VBO;  // vertex buffer object
   glGenBuffers(1, &VBO); // generate with buffer id 1
   glBindBuffer(GL_ARRAY_BUFFER, VBO); // create a GL_ARRAY_BUFFER
@@ -179,13 +174,6 @@ int main()
   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
 			(void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
-
-  // element buffer object
-  unsigned int EBO;
-  glGenBuffers(1, &EBO);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
-	       GL_STATIC_DRAW);
 
   glViewport(0, 0, 800, 600);
 
