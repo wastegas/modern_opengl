@@ -216,9 +216,6 @@ int main()
       glm::mat4 model = glm::mat4(1.0f); // initialize to identity
       glm::mat4 view = glm::mat4(1.0f);
       glm::mat4 projection = glm::mat4(1.0f);
-      // rotate backwards around x-axis
-      model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f),
-      			  glm::vec3(0.5f, 1.0f, 0.0f));
       // move camera backwards on z-axis (negative towards the front)
       view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
       // standard setting for projection
@@ -230,10 +227,7 @@ int main()
       unsigned int viewLoc = glGetUniformLocation(ourShader.ID, "view");
       unsigned int projectionLoc = glGetUniformLocation(ourShader.ID,
 							"projection");
-      // pass them to the shaders (3 different ways all the same)
-      // glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
       glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
-      // note this can be set outside of the rendering
       glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, &projection[0][0]);
 
       glBindVertexArray(VAO);
