@@ -43,6 +43,7 @@ add_executable(trans_ex2 ${CMAKE_SOURCE_DIR}/src/trans_ex2.cpp)
 add_executable(coord1 ${CMAKE_SOURCE_DIR}/src/coord1.cpp)
 add_executable(coord2 ${CMAKE_SOURCE_DIR}/src/coord2.cpp)
 add_executable(coord3 ${CMAKE_SOURCE_DIR}/src/coord3.cpp)
+add_executable(coord_ex1 ${CMAKE_SOURCE_DIR}/src/coord_ex1.cpp)
 
 
 configure_file(${CMAKE_SOURCE_DIR}/src/vs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
@@ -111,3 +112,4 @@ target_link_libraries(trans_ex2 "glad" ${LINK_LIBS})
 target_link_libraries(coord1 "glad" ${LINK_LIBS})
 target_link_libraries(coord2 "glad" ${LINK_LIBS})
 target_link_libraries(coord3 "glad" ${LINK_LIBS})
+target_link_libraries(coord_ex1 "glad" ${LINK_LIBS})
