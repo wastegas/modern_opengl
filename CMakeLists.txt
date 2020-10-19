@@ -47,6 +47,7 @@ add_executable(coord_ex1 ${CMAKE_SOURCE_DIR}/src/coord_ex1.cpp)
 add_executable(coord_ex2 ${CMAKE_SOURCE_DIR}/src/coord_ex2.cpp)
 add_executable(coord_ex3 ${CMAKE_SOURCE_DIR}/src/coord_ex3.cpp)
 add_executable(camera1 ${CMAKE_SOURCE_DIR}/src/camera1.cpp)
+add_executable(camera2 ${CMAKE_SOURCE_DIR}/src/camera2.cpp)
 
 
 configure_file(${CMAKE_SOURCE_DIR}/src/vs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
@@ -119,3 +120,4 @@ target_link_libraries(coord_ex1 "glad" ${LINK_LIBS})
 target_link_libraries(coord_ex2 "glad" ${LINK_LIBS})
 target_link_libraries(coord_ex3 "glad" ${LINK_LIBS})
 target_link_libraries(camera1 "glad" ${LINK_LIBS})
+target_link_libraries(camera2 "glad" ${LINK_LIBS})
