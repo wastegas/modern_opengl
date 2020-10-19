@@ -18,6 +18,11 @@ void processInput(GLFWwindow* window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+// camera positions
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
 int main()
 {
   glfwInit();
@@ -216,8 +221,8 @@ int main()
       glm::mat4 model = glm::mat4(1.0f); // initialize to identity
       glm::mat4 view = glm::mat4(1.0f);
       glm::mat4 projection = glm::mat4(1.0f);
-      // move camera backwards on z-axis (negative towards the front)
-      view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+      // view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+      view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
       // standard setting for projection
       projection = glm::perspective(glm::radians(45.0f),
 				    (float)SCR_WIDTH / (float) SCR_HEIGHT,
@@ -261,8 +266,29 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void processInput(GLFWwindow* window)
 {
+  const float cameraSpeed = 0.05f;
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     {
       glfwSetWindowShouldClose(window, true);
     }
+
+  if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+      cameraPos += cameraSpeed * cameraFront;
+    }
+  if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+      cameraPos -= cameraSpeed * cameraFront;
+    }
+  if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+      cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp))
+	* cameraSpeed;
+    }
+  if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+      cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp))
+	* cameraSpeed;
+    }
+				  
 }
