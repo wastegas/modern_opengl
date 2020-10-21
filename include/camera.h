@@ -45,13 +45,13 @@ class Camera
   float MouseSensitivity;
   float Zoom;
 
-  // constructore with vectors
+  // constructor with vectors
   Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
 	 glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
 	 float yaw = YAW,
 	 float pitch = PITCH)
     : Front(glm::vec3(0.0f, 0.0f, -1.0f)),
-    MouseSpeed(SPEED),
+    MovementSpeed(SPEED),
     MouseSensitivity(SENSITIVITY),
     Zoom(ZOOM)
     {
@@ -79,7 +79,7 @@ class Camera
   // matrix
   glm::mat4 GetViewMatrix()
     {
-      return glm::LookAt(Position, Position + Front, Up);
+      return glm::lookAt(Position, Position + Front, Up);
     }
 
   // processes input received from any keyboard like input system.
@@ -128,7 +128,7 @@ class Camera
   void ProcessMouseScroll(float yoffset)
   {
     Zoom -= (float)yoffset;
-    if (Zoom < 1.0f;)
+    if (Zoom < 1.0f)
       Zoom = 1.0f;
     if (Zoom > 45.0f)
       Zoom = 45.0f;
@@ -142,7 +142,7 @@ class Camera
     glm::vec3 front;
     front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
     front.y = sin(glm::radians(Pitch));
-    front.z = sing(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+    front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
     Front = glm::normalize(front);
     // also, re-calculate the Right and Up vector
     Right = glm::normalize(glm::cross(Front, WorldUp));
