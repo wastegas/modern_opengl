@@ -57,40 +57,16 @@ set(SOURCES
 foreach(SOURCE ${SOURCES})
     add_executable(${SOURCE} ${CMAKE_SOURCE_DIR}/src/${SOURCE}.cpp)
     target_link_libraries(${SOURCE} "glad" ${LINK_LIBS})
+    if(EXISTS ${CMAKE_SOURCE_DIR}/src/${SOURCE}.vs)
+      configure_file(${CMAKE_SOURCE_DIR}/src/${SOURCE}.vs
+	${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+    endif(EXISTS ${CMAKE_SOURCE_DIR}/src/${SOURCE}.vs)
+    if(EXISTS ${CMAKE_SOURCE_DIR}/src/${SOURCE}.fs)
+      configure_file(${CMAKE_SOURCE_DIR}/src/${SOURCE}.fs
+	${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+    endif(EXISTS ${CMAKE_SOURCE_DIR}/src/${SOURCE}.fs)
 endforeach(SOURCE)
 
-configure_file(${CMAKE_SOURCE_DIR}/src/vs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/fs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/vsoff.glsi ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/vsex3.glsl ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/fsex3.glsl ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/vstex1.glsl ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/fstex1.glsl ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/vstex2.glsl ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/fstex2.glsl ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/fstex3.glsl ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/trans1.vs ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/trans1.fs ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/coord1.vs ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/coord1.fs ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/coord2.vs ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/coord2.fs ${CMAKE_CURRENT_BINARY_DIR}
-  COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/resources/container.jpg
   ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/resources/awesomeface.png
