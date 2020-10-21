@@ -1,4 +1,4 @@
-/* demonstrate camera walk around */
+/* demonstrate camera walk around world with mouse inputs */
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -13,6 +13,7 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 
 // screen size
 const unsigned int SCR_WIDTH = 800;
@@ -22,6 +23,16 @@ const unsigned int SCR_HEIGHT = 600;
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+
+// initialize values for mouse input handler
+bool firstMouse = true;
+float yaw = -90.f;
+// initialized to -90.0 deg since a yaw of 0.0 results a direction
+// vectore pointing to the right so we rotate it a bit to the left
+float pitch = 0.0f;
+float lastX = 800.0f / 2.0; // half of width of window
+float lastY = 800.0f / 2.0; // half of height of window
 
 // frame delta time
 float deltaTime = 0.0f; // Time between current frame and last frame
@@ -44,8 +55,8 @@ int main()
     }
 
   glfwMakeContextCurrent(window);
-
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+  glfwSetCursorPosCallback(window, mouse_callback);
 
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -298,4 +309,39 @@ void processInput(GLFWwindow* window)
 	* cameraSpeed;
     }
 				  
+}
+
+// glfw: whenever the mouse mves, this callback is called
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+  if (firstMouse)
+    {
+      lastX = xpos;
+      lastY = ypos;
+      firstMouse = false;
+    }
+
+  float xoffset = xpos - lastX;
+  float yoffset = lastY - ypos; // reversed since y-coord go from bottom to top
+  lastX = xpos;
+  lastY = ypos;
+
+  float sensitivity = 0.1f; // adjust to your liking
+  xoffset *= sensitivity;
+  yoffset *= sensitivity;
+
+  yaw += xoffset;
+  pitch += yoffset;
+
+  // make sure that when the pitch is out of bounds, screen doesn't get flipped
+  if (pitch >= 89.0f)
+    pitch = 89.0f;
+  if (pitch < -89.0f)
+    pitch = -89.0f;
+
+  glm::vec3 front;
+  front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+  front.y = sin(glm::radians(pitch));
+  front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+  cameraFront = glm::normalize(front);
 }
