@@ -111,7 +111,7 @@ int main()
 	       vertices, GL_STATIC_DRAW); // copy our array into buffer
 
 
-  Shader ourShader("./vstex2.glsl", "./fstex2.glsl");
+  Shader ourShader("./texture2.vs", "./texture2.fs");
 
   // vertex array object
   unsigned int VAO;
