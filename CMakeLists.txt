@@ -52,6 +52,7 @@ set(SOURCES
   camera2
   camera3
   camera4
+  camera_class
   )
 
 foreach(SOURCE ${SOURCES})
