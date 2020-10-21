@@ -16,39 +16,46 @@ find_package(glfw3 REQUIRED)
 find_package(PkgConfig REQUIRED)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
+add_library("glad" "${CMAKE_SOURCE_DIR}/src/glad.c")
+target_include_directories("glad" PRIVATE "${CMAKE_SOURCE_DIR}/include")
+set(LINK_LIBS ${OPENGL_gl_LIBRARY} glfw dl)
 
-add_executable(hello ${CMAKE_SOURCE_DIR}/src/hello.cpp)
-add_executable(hello_triangle ${CMAKE_SOURCE_DIR}/src/hello_triangle.cpp)
-add_executable(rectangle ${CMAKE_SOURCE_DIR}/src/rectangle.cpp)
-add_executable(triangle_ex1 ${CMAKE_SOURCE_DIR}/src/triangle_ex1.cpp)
-add_executable(triangle_ex2 ${CMAKE_SOURCE_DIR}/src/triangle_ex2.cpp)
-add_executable(triangle_ex3 ${CMAKE_SOURCE_DIR}/src/triangle_ex3.cpp)
-add_executable(shader1 ${CMAKE_SOURCE_DIR}/src/shader1.cpp)
-add_executable(shader2 ${CMAKE_SOURCE_DIR}/src/shader2.cpp)
-add_executable(shader3 ${CMAKE_SOURCE_DIR}/src/shader3.cpp)
-add_executable(shader_class ${CMAKE_SOURCE_DIR}/src/shader_class.cpp)
-add_executable(shader_ex1 ${CMAKE_SOURCE_DIR}/src/shader_ex1.cpp)
-add_executable(shader_ex2 ${CMAKE_SOURCE_DIR}/src/shader_ex2.cpp)
-add_executable(shader_ex3 ${CMAKE_SOURCE_DIR}/src/shader_ex3.cpp)
-add_executable(texture1 ${CMAKE_SOURCE_DIR}/src/texture1.cpp)
-add_executable(texture2 ${CMAKE_SOURCE_DIR}/src/texture2.cpp)
-add_executable(textex1 ${CMAKE_SOURCE_DIR}/src/textex1.cpp)
-add_executable(textex2 ${CMAKE_SOURCE_DIR}/src/textex2.cpp)
-add_executable(textex3 ${CMAKE_SOURCE_DIR}/src/textex3.cpp)
-add_executable(textex4 ${CMAKE_SOURCE_DIR}/src/textex4.cpp)
-add_executable(transformation1 ${CMAKE_SOURCE_DIR}/src/transformation1.cpp)
-add_executable(transformation2 ${CMAKE_SOURCE_DIR}/src/transformation2.cpp)
-add_executable(trans_ex1 ${CMAKE_SOURCE_DIR}/src/trans_ex1.cpp)
-add_executable(trans_ex2 ${CMAKE_SOURCE_DIR}/src/trans_ex2.cpp)
-add_executable(coord1 ${CMAKE_SOURCE_DIR}/src/coord1.cpp)
-add_executable(coord2 ${CMAKE_SOURCE_DIR}/src/coord2.cpp)
-add_executable(coord3 ${CMAKE_SOURCE_DIR}/src/coord3.cpp)
-add_executable(coord_ex1 ${CMAKE_SOURCE_DIR}/src/coord_ex1.cpp)
-add_executable(coord_ex2 ${CMAKE_SOURCE_DIR}/src/coord_ex2.cpp)
-add_executable(coord_ex3 ${CMAKE_SOURCE_DIR}/src/coord_ex3.cpp)
-add_executable(camera1 ${CMAKE_SOURCE_DIR}/src/camera1.cpp)
-add_executable(camera2 ${CMAKE_SOURCE_DIR}/src/camera2.cpp)
 
+set(SOURCES
+  hello
+  hello_triangle
+  rectangle
+  triangle_ex1
+  triangle_ex2
+  triangle_ex3
+  shader1
+  shader2
+  shader3
+  shader_class
+  shader_ex1
+  shader_ex2
+  shader_ex3
+  texture1
+  texture2
+  transformation1
+  transformation2
+  trans_ex1
+  trans_ex2
+  coord1
+  coord2
+  coord3
+  coord_ex1
+  coord_ex2
+  coord_ex3
+  camera1
+  camera2
+  camera3
+  )
+
+foreach(SOURCE ${SOURCES})
+    add_executable(${SOURCE} ${CMAKE_SOURCE_DIR}/src/${SOURCE}.cpp)
+    target_link_libraries(${SOURCE} "glad" ${LINK_LIBS})
+endforeach(SOURCE)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/vs1.glsi ${CMAKE_CURRENT_BINARY_DIR}
   COPYONLY)
@@ -86,38 +93,3 @@ configure_file(${CMAKE_SOURCE_DIR}/resources/container.jpg
   ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/resources/awesomeface.png
   ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-
-add_library("glad" "${CMAKE_SOURCE_DIR}/src/glad.c")
-target_include_directories("glad" PRIVATE "${CMAKE_SOURCE_DIR}/include")
-set(LINK_LIBS ${OPENGL_gl_LIBRARY} glfw dl)
-target_link_libraries(hello "glad" ${LINK_LIBS})
-target_link_libraries(hello_triangle "glad" ${LINK_LIBS})
-target_link_libraries(rectangle "glad" ${LINK_LIBS})
-target_link_libraries(triangle_ex1 "glad" ${LINK_LIBS})
-target_link_libraries(triangle_ex2 "glad" ${LINK_LIBS})
-target_link_libraries(triangle_ex3 "glad" ${LINK_LIBS})
-target_link_libraries(shader1 "glad" ${LINK_LIBS})
-target_link_libraries(shader2 "glad" ${LINK_LIBS})
-target_link_libraries(shader3 "glad" ${LINK_LIBS})
-target_link_libraries(shader_class "glad" ${LINK_LIBS})
-target_link_libraries(shader_ex1 "glad" ${LINK_LIBS})
-target_link_libraries(shader_ex2 "glad" ${LINK_LIBS})
-target_link_libraries(shader_ex3 "glad" ${LINK_LIBS})
-target_link_libraries(texture1 "glad" ${LINK_LIBS})
-target_link_libraries(texture2 "glad" ${LINK_LIBS})
-target_link_libraries(textex1 "glad" ${LINK_LIBS})
-target_link_libraries(textex2 "glad" ${LINK_LIBS})
-target_link_libraries(textex3 "glad" ${LINK_LIBS})
-target_link_libraries(textex4 "glad" ${LINK_LIBS})
-target_link_libraries(transformation1 "glad" ${LINK_LIBS})
-target_link_libraries(transformation2 "glad" ${LINK_LIBS})
-target_link_libraries(trans_ex1 "glad" ${LINK_LIBS})
-target_link_libraries(trans_ex2 "glad" ${LINK_LIBS})
-target_link_libraries(coord1 "glad" ${LINK_LIBS})
-target_link_libraries(coord2 "glad" ${LINK_LIBS})
-target_link_libraries(coord3 "glad" ${LINK_LIBS})
-target_link_libraries(coord_ex1 "glad" ${LINK_LIBS})
-target_link_libraries(coord_ex2 "glad" ${LINK_LIBS})
-target_link_libraries(coord_ex3 "glad" ${LINK_LIBS})
-target_link_libraries(camera1 "glad" ${LINK_LIBS})
-target_link_libraries(camera2 "glad" ${LINK_LIBS})
