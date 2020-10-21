@@ -50,6 +50,7 @@ set(SOURCES
   camera1
   camera2
   camera3
+  camera4
   )
 
 foreach(SOURCE ${SOURCES})
