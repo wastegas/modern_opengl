@@ -44,7 +44,7 @@ int main()
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices),
 	       vertices, GL_STATIC_DRAW); // copy our array into buffer
 
-  Shader ourShader("./vs1.glsi", "./fs1.glsi");
+  Shader ourShader("./shader_class.vs", "./shader_class.fs");
 
   // vertex array object
   unsigned int VAO;
