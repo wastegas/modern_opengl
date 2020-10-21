@@ -1,4 +1,5 @@
 /* demonstrate camera walk around world with mouse inputs */
+/* add zooming using mouse scroll */
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -14,6 +15,7 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 // screen size
 const unsigned int SCR_WIDTH = 800;
@@ -33,6 +35,8 @@ float yaw = -90.f;
 float pitch = 0.0f;
 float lastX = 800.0f / 2.0; // half of width of window
 float lastY = 800.0f / 2.0; // half of height of window
+// field of view for zoom
+float fov = 45.0f;
 
 // frame delta time
 float deltaTime = 0.0f; // Time between current frame and last frame
@@ -57,6 +61,7 @@ int main()
   glfwMakeContextCurrent(window);
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
   glfwSetCursorPosCallback(window, mouse_callback);
+  glfwSetScrollCallback(window, scroll_callback);
 
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -242,7 +247,7 @@ int main()
       // view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
       view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
       // standard setting for projection
-      projection = glm::perspective(glm::radians(45.0f),
+      projection = glm::perspective(glm::radians(fov),
 				    (float)SCR_WIDTH / (float) SCR_HEIGHT,
 				    0.1f, 100.0f);
       // retrieve uniform location from shader
@@ -344,4 +349,13 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
   front.y = sin(glm::radians(pitch));
   front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
   cameraFront = glm::normalize(front);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+  fov -= (float)yoffset;
+  if (fov < 1.0f)
+    fov = 1.0f;
+  if (fov > 45.0f)
+    fov = 45.0f;
 }
