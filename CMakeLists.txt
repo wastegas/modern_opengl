@@ -58,15 +58,17 @@ set(SOURCES
 foreach(SOURCE ${SOURCES})
     add_executable(${SOURCE} ${CMAKE_SOURCE_DIR}/src/${SOURCE}.cpp)
     target_link_libraries(${SOURCE} "glad" ${LINK_LIBS})
-    if(EXISTS ${CMAKE_SOURCE_DIR}/src/${SOURCE}.vs)
-      configure_file(${CMAKE_SOURCE_DIR}/src/${SOURCE}.vs
-	${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-    endif(EXISTS ${CMAKE_SOURCE_DIR}/src/${SOURCE}.vs)
-    if(EXISTS ${CMAKE_SOURCE_DIR}/src/${SOURCE}.fs)
-      configure_file(${CMAKE_SOURCE_DIR}/src/${SOURCE}.fs
-	${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-    endif(EXISTS ${CMAKE_SOURCE_DIR}/src/${SOURCE}.fs)
 endforeach(SOURCE)
+
+file(GLOB SHADERS
+  "${CMAKE_SOURCE_DIR}/src/*.vs"
+  "${CMAKE_SOURCE_DIR}/src/*.fs"
+  )
+
+foreach(SHADER ${SHADERS})
+  configure_file(${SHADER} ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+endforeach(SHADER)
+
 
 configure_file(${CMAKE_SOURCE_DIR}/resources/container.jpg
   ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
