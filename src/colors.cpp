@@ -7,16 +7,39 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "shader.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "camera.h"
+
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 // screen size
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+
+// camera positions
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+
+// Camera
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+bool firstMouse = true;
+float lastX = 800.0f / 2.0; // half of width of window
+float lastY = 800.0f / 2.0; // half of height of window
+// field of view for zoom
+float fov = 45.0f;
+
+// frame delta time
+float deltaTime = 0.0f; // Time between current frame and last frame
+float lastFrame = 0.0f; // Time of last frame
+
+// lighting
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 int main()
 {
@@ -37,6 +60,8 @@ int main()
   glfwMakeContextCurrent(window);
 
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+  glfwSetCursorPosCallback(window, mouse_callback);
+  glfwSetScrollCallback(window, scroll_callback);
 
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -46,62 +71,10 @@ int main()
 
   // configure global opengl state
   glEnable(GL_DEPTH_TEST);
-
-  unsigned int texture1, texture2;
-  glGenTextures(1, &texture1);
-  glBindTexture(GL_TEXTURE_2D, texture1);
-
-  // set the texture wrapping/filtering options
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-  int width, height, nrChannels;
-  stbi_set_flip_vertically_on_load(true);
-  unsigned char *data = stbi_load("container.jpg", &width, &height,
-				  &nrChannels, 0);
-  if (data)
-    {
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
-	       GL_UNSIGNED_BYTE, data);
-      glGenerateMipmap(GL_TEXTURE_2D);
-    }
-  else
-    {
-      std::cout << "Failed to load texture" << std::endl;
-    }
-
-  // free the image after generating
-  stbi_image_free(data);
-
-  // Texture 2
-  glGenTextures(1, &texture2);
-  glBindTexture(GL_TEXTURE_2D, texture2);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-  data = stbi_load("awesomeface.png", &width, &height,
-				  &nrChannels, 0);
-  if (data)
-    {
-      // .png has transparancy thus an alpha channel GL_RGBA
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
-	       GL_UNSIGNED_BYTE, data);
-      glGenerateMipmap(GL_TEXTURE_2D);
-    }
-  else
-    {
-      std::cout << "Failed to load texture" << std::endl;
-    }
-
-  // free the image after generating
-  stbi_image_free(data);
   
+  Shader lightingShader("./colors.vs", "./colors.fs");
+  Shader lightCubeShader("./lighting1.vs", "./lighting1.fs");
   
-  // points for our rectangle created with two triangles
   float vertices[] = {
 	  // positions      
 	  -0.5f, -0.5f, -0.5f, 
@@ -148,76 +121,73 @@ int main()
 
   };
 
-  unsigned int VBO;  // vertex buffer object
-  glGenBuffers(1, &VBO); // generate with buffer id 1
-  glBindBuffer(GL_ARRAY_BUFFER, VBO); // create a GL_ARRAY_BUFFER
+  // first configure the cube's VAO and VBO
+  unsigned int VBO, cubeVAO;
+  glGenVertexArrays(1, &cubeVAO);
+  glGenBuffers(1, &VBO);
+  
+  glBindBuffer(GL_ARRAY_BUFFER, VBO); 
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices),
-	       vertices, GL_STATIC_DRAW); // copy our array into buffer
+	       vertices, GL_STATIC_DRAW); 
 
-
-  Shader ourShader("./coord2.vs", "./coord2.fs");
-
-  // vertex array object
-  unsigned int VAO;
-  glGenVertexArrays(1, &VAO);
-  glBindVertexArray(VAO);
-
-  glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
+  glBindVertexArray(cubeVAO);
+  
   // positions attribute
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
 			(void*)0);
   glEnableVertexAttribArray(0);
 
+  // second configure the light's VAO (VBO stays the same; the
+  // vertices are the same for the light object which is also
+  // a 3D cube
+  unsigned int lightCubeVAO;
+  glGenVertexArrays(1, &lightCubeVAO);
+  glBindVertexArray(lightCubeVAO);
 
-  glViewport(0, 0, 800, 600);
+  // we only need to bind the vbo (to link it with glVertexAttribPointer),
+  // no need to fill it; the VBO's data already contains all we need
+  // it's already bound, but we do it again for educational purposes
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-  ourShader.use();
-  ourShader.setInt("texture1", 0);
-  ourShader.setInt("texture2", 1);
-
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
+			(void*)0);
+  
+  
   while(!glfwWindowShouldClose(window))
     {
       glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-      // also clear the depth buffer
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+      // be sure to activate shader when setting uniforms/drawign objects
+      lightingShader.use();
+      lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+      lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
-      // assign the texture to the fragment shader's sampler
-      glActiveTexture(GL_TEXTURE0);
-      glBindTexture(GL_TEXTURE_2D, texture1);
-      glActiveTexture(GL_TEXTURE1);
-      glBindTexture(GL_TEXTURE_2D, texture2);
-      
-      
-      
-      ourShader.use();
+      // view projection transformations
+      glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom),
+		    (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+      glm::mat4 view = camera.GetViewMatrix();
+      lightingShader.setMat4("projection", projection);
+      lightingShader.setMat4("view", view);
 
-      // create transformations
-      glm::mat4 model = glm::mat4(1.0f); // initialize to identity
-      glm::mat4 view = glm::mat4(1.0f);
-      glm::mat4 projection = glm::mat4(1.0f);
-      // rotate backwards around x-axis
-      model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f),
-			  glm::vec3(0.5f, 1.0f, 0.0f));
-      // move camera backwards on z-axis (negative towards the front)
-      view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-      // standard setting for projection
-      projection = glm::perspective(glm::radians(45.0f),
-				    (float)SCR_WIDTH / (float) SCR_HEIGHT,
-				    0.1f, 100.0f);
-      // retrieve uniform location from shader
-      unsigned int modelLoc = glGetUniformLocation(ourShader.ID, "model");
-      unsigned int viewLoc = glGetUniformLocation(ourShader.ID, "view");
-      unsigned int projectionLoc = glGetUniformLocation(ourShader.ID,
-							"projection");
-      // pass them to the shaders (3 different ways all the same)
-      glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-      glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
-      // note this can be set outside of the rendering
-      glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, &projection[0][0]);
+      // world transformation
+      glm::mat4 model = glm::mat4(1.0f);
+      lightingShader.setMat4("model", model);
+      
+      // render the cube
+      glBindVertexArray(cubeVAO);
+      glDrawArrays(GL_TRIANGLES, 0, 36);
 
-      glBindVertexArray(VAO);
+      // also draw the lamp object
+      lightCubeShader.use();
+      lightCubeShader.setMat4("projection", projection);
+      lightCubeShader.setMat4("view", view);
+      model = glm::mat4(1.0f);
+      model = glm::translate(model, lightPos);
+      model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
+      lightCubeShader.setMat4("model", model);
+
+      glBindVertexArray(lightCubeVAO);
       glDrawArrays(GL_TRIANGLES, 0, 36);
       
       processInput(window);
@@ -226,6 +196,12 @@ int main()
       glfwPollEvents();
     }
 
+  // deallocate all resources (optional)
+  glDeleteVertexArrays(1, &cubeVAO);
+  glDeleteVertexArrays(1, &lightCubeVAO);
+  glDeleteBuffers(1, &VBO);
+
+  // terminate clearing all previously allocated GLFW resources
   glfwTerminate();
   
   
@@ -239,8 +215,50 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void processInput(GLFWwindow* window)
 {
+  const float cameraSpeed = 2.5f * deltaTime;
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     {
       glfwSetWindowShouldClose(window, true);
     }
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+      camera.ProcessKeyboard(FORWARD, deltaTime);
+    }
+  if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+      camera.ProcessKeyboard(BACKWARD, deltaTime);
+    }
+  if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+      camera.ProcessKeyboard(LEFT, deltaTime);
+    }
+  if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+      camera.ProcessKeyboard(RIGHT, deltaTime);
+    }
+				  
 }
+
+// glfw: whenever the mouse mves, this callback is called
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+  if (firstMouse)
+    {
+      lastX = xpos;
+      lastY = ypos;
+      firstMouse = false;
+    }
+
+  float xoffset = xpos - lastX;
+  float yoffset = lastY - ypos; // reversed since y-coord go from bottom to top
+  lastX = xpos;
+  lastY = ypos;
+
+  camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+  camera.ProcessMouseScroll(yoffset);
+}
+
