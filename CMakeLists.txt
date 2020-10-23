@@ -40,6 +40,7 @@ set(SOURCES
   texture2
   textex1
   textex2
+  textex3
   textex4
   transformation1
   transformation2
