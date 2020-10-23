@@ -38,6 +38,9 @@ set(SOURCES
   shader_ex3
   texture1
   texture2
+  textex1
+  textex2
+  textex4
   transformation1
   transformation2
   trans_ex1
