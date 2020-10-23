@@ -58,6 +58,7 @@ set(SOURCES
   camera4
   camera_class
   colors
+  ambient
   )
 
 foreach(SOURCE ${SOURCES})
