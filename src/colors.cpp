@@ -123,8 +123,7 @@ int main()
 	       vertices, GL_STATIC_DRAW); 
 
   glBindVertexArray(cubeVAO);
-  
-  // positions attribute
+    // positions attribute
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
 			(void*)0);
   glEnableVertexAttribArray(0);
@@ -140,7 +139,6 @@ int main()
   // no need to fill it; the VBO's data already contains all we need
   // it's already bound, but we do it again for educational purposes
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
 			(void*)0);
   glEnableVertexAttribArray(0);
@@ -159,6 +157,7 @@ int main()
 
       // be sure to activate shader when setting uniforms/drawign objects
       lightingShader.use();
+      // set our colors
       lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
       lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
@@ -182,7 +181,7 @@ int main()
       lightCubeShader.setMat4("projection", projection);
       lightCubeShader.setMat4("view", view);
       model = glm::mat4(1.0f);
-      model = glm::translate(model, lightPos);
+      model = glm::translate(model, lightPos); // move our lamp to lightPOS
       model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
       lightCubeShader.setMat4("model", model);
 
