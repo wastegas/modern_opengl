@@ -20,19 +20,11 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-// camera positions
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-
-
 // Camera
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 bool firstMouse = true;
-float lastX = 800.0f / 2.0; // half of width of window
-float lastY = 800.0f / 2.0; // half of height of window
-// field of view for zoom
-float fov = 45.0f;
+float lastX = SCR_WIDTH / 2.0; // half of width of window
+float lastY = SCR_HEIGHT / 2.0; // half of height of window
 
 // frame delta time
 float deltaTime = 0.0f; // Time between current frame and last frame
@@ -151,11 +143,18 @@ int main()
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
 			(void*)0);
+  glEnableVertexAttribArray(0);
   
   
   while(!glfwWindowShouldClose(window))
     {
-      glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+      //per-frame time logic
+      float currentFrame = glfwGetTime();
+      deltaTime = currentFrame - lastFrame;
+      lastFrame = currentFrame;
+
+      
+      glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       // be sure to activate shader when setting uniforms/drawign objects
