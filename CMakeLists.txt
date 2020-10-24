@@ -62,6 +62,7 @@ set(SOURCES
   diffuse
   specular
   specular_ex1
+  material1
   )
 
 foreach(SOURCE ${SOURCES})
