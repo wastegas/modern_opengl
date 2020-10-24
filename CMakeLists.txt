@@ -76,7 +76,12 @@ foreach(SHADER ${SHADERS})
 endforeach(SHADER)
 
 
-configure_file(${CMAKE_SOURCE_DIR}/resources/container.jpg
-  ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/resources/awesomeface.png
-  ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+file(GLOB TEXTURES
+  "${CMAKE_SOURCE_DIR}/resources/*.jpg"
+  "${CMAKE_SOURCE_DIR}/resources/*.png"
+  )
+
+foreach(TEXTURE ${TEXTURES})
+  configure_file(${TEXTURE} ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+endforeach(TEXTURE)
+
