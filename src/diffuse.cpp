@@ -64,52 +64,52 @@ int main()
   // configure global opengl state
   glEnable(GL_DEPTH_TEST);
   
-  Shader lightingShader("./colors2.vs", "./colors2.fs");
-  Shader lightCubeShader("./lighting2.vs", "./lighting2.fs");
+  Shader lightingShader("./basic_lighting.vs", "./basic_lighting.fs");
+  Shader lightCubeShader("./light_cube.vs", "./light_cube.fs");
   
   float vertices[] = {
 	  // positions      
-	  -0.5f, -0.5f, -0.5f, 
-	   0.5f, -0.5f, -0.5f, 
-	   0.5f,  0.5f, -0.5f,
-	   0.5f,  0.5f, -0.5f,
-	  -0.5f,  0.5f, -0.5f,
-	  -0.5f, -0.5f, -0.5f,
+		      -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+		      0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+		      0.5f,  0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+		      0.5f,  0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+		      -0.5f,  0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+		      -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
 
-	  -0.5f, -0.5f,  0.5f,
-           0.5f, -0.5f,  0.5f,
-	   0.5f,  0.5f,  0.5f,
-	   0.5f,  0.5f,  0.5f,
-	  -0.5f,  0.5f,  0.5f,
-	  -0.5f, -0.5f,  0.5f,
+		      -0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+		      0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+		      0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+		      0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+		      -0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+		      -0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
 
-	  -0.5f,  0.5f,  0.5f,
-	  -0.5f,  0.5f, -0.5f,
-	  -0.5f, -0.5f, -0.5f,
-	  -0.5f, -0.5f, -0.5f,
-	  -0.5f, -0.5f,  0.5f,
-	  -0.5f,  0.5f,  0.5f,
+		      -0.5f,  0.5f,  0.5f, -1.0f, 0.0f, 0.0f, 
+		      -0.5f,  0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
+		      -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
+		      -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
+		      -0.5f, -0.5f,  0.5f, -1.0f, 0.0f, 0.0f,
+		      -0.5f,  0.5f,  0.5f, -1.0f, 0.0f, 0.0f,
 
-	   0.5f,  0.5f,  0.5f,
-	   0.5f,  0.5f, -0.5f,
-	   0.5f, -0.5f, -0.5f,
-	   0.5f, -0.5f, -0.5f,
-	   0.5f, -0.5f,  0.5f,
-	   0.5f,  0.5f,  0.5f,
+		      0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
+		      0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+		      0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+		      0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+		      0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
+		      0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
 
-	  -0.5f, -0.5f, -0.5f,
-	   0.5f, -0.5f, -0.5f,
-	   0.5f, -0.5f,  0.5f,
-	   0.5f, -0.5f,  0.5f,
-	  -0.5f, -0.5f,  0.5f,
-	  -0.5f, -0.5f, -0.5f,
+		      -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
+		      0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
+		      0.5f, -0.5f,  0.5f, 0.0f, -1.0f, 0.0f,
+		      0.5f, -0.5f,  0.5f, 0.0f, -1.0f, 0.0f,
+		      -0.5f, -0.5f,  0.5f, 0.0f, -1.0f, 0.0f,
+		      -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
 
-	  -0.5f,  0.5f, -0.5f,
-	   0.5f,  0.5f, -0.5f,
-	   0.5f,  0.5f,  0.5f,
-	   0.5f,  0.5f,  0.5f,
-	  -0.5f,  0.5f,  0.5f,
-	  -0.5f,  0.5f, -0.5f
+		      -0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+		      0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+		      0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f,
+		      0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f,
+		      -0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f,
+		      -0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f
 
   };
 
@@ -124,9 +124,12 @@ int main()
 
   glBindVertexArray(cubeVAO);
     // positions attribute
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
 			(void*)0);
   glEnableVertexAttribArray(0);
+  //  normal attribute
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+			(void*)(3 * sizeof(float)));
 
   // second configure the light's VAO (VBO stays the same; the
   // vertices are the same for the light object which is also
@@ -139,7 +142,7 @@ int main()
   // no need to fill it; the VBO's data already contains all we need
   // it's already bound, but we do it again for educational purposes
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
 			(void*)0);
   glEnableVertexAttribArray(0);
   
@@ -160,6 +163,7 @@ int main()
       // set our colors
       lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
       lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+      lightingShader.setVec3("lightPos", lightPos);
 
       // view projection transformations
       glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom),
