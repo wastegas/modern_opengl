@@ -60,6 +60,7 @@ set(SOURCES
   colors
   ambient
   diffuse
+  specular
   )
 
 foreach(SOURCE ${SOURCES})
