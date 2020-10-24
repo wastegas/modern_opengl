@@ -130,6 +130,7 @@ int main()
   //  normal attribute
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
 			(void*)(3 * sizeof(float)));
+  glEnableVertexAttribArray(1);
 
   // second configure the light's VAO (VBO stays the same; the
   // vertices are the same for the light object which is also
