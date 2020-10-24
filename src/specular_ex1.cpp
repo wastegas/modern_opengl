@@ -11,24 +11,24 @@
 
 #include <iostream>
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void framebuffer_size_callback(GLFWwindow* window, GLint width, GLint height);
 void processInput(GLFWwindow* window);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void mouse_callback(GLFWwindow* window, GLdouble xpos, GLdouble ypos);
+void scroll_callback(GLFWwindow* window, GLdouble xoffset, GLdouble yoffset);
 
 // screen size
-const unsigned int SCR_WIDTH = 1024;
-const unsigned int SCR_HEIGHT = 768;
+const GLuint SCR_WIDTH = 1024;
+const GLuint SCR_HEIGHT = 768;
 
 // Camera
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
-bool firstMouse = true;
-float lastX = SCR_WIDTH / 2.0; // half of width of window
-float lastY = SCR_HEIGHT / 2.0; // half of height of window
+GLboolean firstMouse = true;
+GLfloat lastX = SCR_WIDTH / 2.0; // half of width of window
+GLfloat lastY = SCR_HEIGHT / 2.0; // half of height of window
 
 // frame delta time
-float deltaTime = 0.0f; // Time between current frame and last frame
-float lastFrame = 0.0f; // Time of last frame
+GLfloat deltaTime = 0.0f; // Time between current frame and last frame
+GLfloat lastFrame = 0.0f; // Time of last frame
 
 // lighting
 glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
@@ -69,7 +69,7 @@ int main()
   Shader lightCubeShader("./light_cube_spec.vs",
 			 "./light_cube_spec.fs");
   
-  float vertices[] = {
+  GLfloat vertices[] = {
 	  // positions      
 		      -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
 		      0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
@@ -116,7 +116,7 @@ int main()
   };
 
   // first configure the cube's VAO and VBO
-  unsigned int VBO, cubeVAO;
+  GLuint VBO, cubeVAO;
   glGenVertexArrays(1, &cubeVAO);
   glGenBuffers(1, &VBO);
   
@@ -126,18 +126,18 @@ int main()
 
   glBindVertexArray(cubeVAO);
     // positions attribute
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
 			(void*)0);
   glEnableVertexAttribArray(0);
   //  normal attribute
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
-			(void*)(3 * sizeof(float)));
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
+			(void*)(3 * sizeof(GLfloat)));
   glEnableVertexAttribArray(1);
 
   // second configure the light's VAO (VBO stays the same; the
   // vertices are the same for the light object which is also
   // a 3D cube
-  unsigned int lightCubeVAO;
+  GLuint lightCubeVAO;
   glGenVertexArrays(1, &lightCubeVAO);
   glBindVertexArray(lightCubeVAO);
 
@@ -145,7 +145,7 @@ int main()
   // no need to fill it; the VBO's data already contains all we need
   // it's already bound, but we do it again for educational purposes
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
 			(void*)0);
   glEnableVertexAttribArray(0);
   
@@ -153,7 +153,7 @@ int main()
   while(!glfwWindowShouldClose(window))
     {
       //per-frame time logic
-      float currentFrame = glfwGetTime();
+      GLfloat currentFrame = glfwGetTime();
       deltaTime = currentFrame - lastFrame;
       lastFrame = currentFrame;
       lightPos.x = 2.0f * sin(glfwGetTime());
@@ -173,7 +173,7 @@ int main()
 
       // view projection transformations
       glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom),
-		    (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		    (GLfloat)SCR_WIDTH / (GLfloat)SCR_HEIGHT, 0.1f, 100.0f);
       glm::mat4 view = camera.GetViewMatrix();
       lightingShader.setVec3("viewPos", camera.Position);
       lightingShader.setMat4("projection", projection);
@@ -217,14 +217,14 @@ int main()
   return 0;
 }
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void framebuffer_size_callback(GLFWwindow* window, GLint width, GLint height)
 {
   glViewport(0, 0, width, height);
 }
 
 void processInput(GLFWwindow* window)
 {
-  const float cameraSpeed = 2.5f * deltaTime;
+  const GLfloat cameraSpeed = 2.5f * deltaTime;
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     {
       glfwSetWindowShouldClose(window, true);
@@ -249,7 +249,7 @@ void processInput(GLFWwindow* window)
 }
 
 // glfw: whenever the mouse mves, this callback is called
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+void mouse_callback(GLFWwindow* window, GLdouble xpos, GLdouble ypos)
 {
   if (firstMouse)
     {
@@ -258,15 +258,15 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
       firstMouse = false;
     }
 
-  float xoffset = xpos - lastX;
-  float yoffset = lastY - ypos; // reversed since y-coord go from bottom to top
+  GLfloat xoffset = xpos - lastX;
+  GLfloat yoffset = lastY - ypos; // reversed since y-coord go from bottom to top
   lastX = xpos;
   lastY = ypos;
 
   camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+void scroll_callback(GLFWwindow* window, GLdouble xoffset, GLdouble yoffset)
 {
   camera.ProcessMouseScroll(yoffset);
 }
