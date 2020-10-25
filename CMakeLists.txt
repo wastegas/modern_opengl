@@ -65,6 +65,7 @@ set(SOURCES
   material1
   material2
   material3
+  material_ex1
   )
 
 foreach(SOURCE ${SOURCES})
