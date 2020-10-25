@@ -64,6 +64,7 @@ set(SOURCES
   specular_ex1
   material1
   material2
+  material3
   )
 
 foreach(SOURCE ${SOURCES})
