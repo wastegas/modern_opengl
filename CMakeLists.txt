@@ -67,6 +67,7 @@ set(SOURCES
   material3
   material_ex1
   map_diffuse
+  map_specular
   )
 
 foreach(SOURCE ${SOURCES})
