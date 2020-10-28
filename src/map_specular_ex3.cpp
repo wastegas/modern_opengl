@@ -158,7 +158,7 @@ int main()
   
   // load textures
   GLuint diffuseMap = loadTexture("container2.png");
-  GLuint specularMap = loadTexture("container2_specular.png");
+  GLuint specularMap = loadTexture("container2_specular_colored.png");
 
   // shader configuration
   lightingShader.use();
