@@ -70,6 +70,7 @@ set(SOURCES
   map_specular
   map_specular_ex2
   map_specular_ex3
+  map_specular_ex4
   )
 
 foreach(SOURCE ${SOURCES})
