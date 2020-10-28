@@ -67,10 +67,10 @@ int main()
   // configure global opengl state
   glEnable(GL_DEPTH_TEST);
   
-  Shader lightingShader("./map_specular.vs",
-			"./map_specular.fs");
-  Shader lightCubeShader("./lightCubeMap_specular.vs",
-			 "./lightCubeMap_specular.fs");
+  Shader lightingShader("./map_specular_ex2.vs",
+			"./map_specular_ex2.fs");
+  Shader lightCubeShader("./lightCubeMap_specular_ex2.vs",
+			 "./lightCubeMap_specular_ex2.fs");
   
   GLfloat vertices[] = {
 	  // positions         // normals        // coords      
