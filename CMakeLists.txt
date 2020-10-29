@@ -72,6 +72,7 @@ set(SOURCES
   map_specular_ex3
   map_specular_ex4
   castDirection
+  castPoint
   )
 
 foreach(SOURCE ${SOURCES})
