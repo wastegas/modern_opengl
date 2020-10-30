@@ -66,10 +66,10 @@ int main()
   // configure global opengl state
   glEnable(GL_DEPTH_TEST);
   
-  Shader lightingShader("./map_point.vs",
-			"./map_point.fs");
-  Shader lightCubeShader("./lightCube_point.vs",
-			 "./lightCube_point.fs");
+  Shader lightingShader("./mapSpot.vs",
+			"./mapSpot.fs");
+  Shader lightCubeShader("./lightCubeSpot.vs",
+			 "./lightCubeSpot.fs");
   
   GLfloat vertices[] = {
 	  // positions         // normals        // coords      
@@ -192,15 +192,18 @@ int main()
 
       // be sure to activate shader when setting uniforms/drawign objects
       lightingShader.use();
-      lightingShader.setVec3("light.position", lightPos);
+      lightingShader.setVec3("light.position", camera.Position);
+      lightingShader.setVec3("light.direction", camera.Front);
+      lightingShader.setFloat("light.cutOff",
+			      glm::cos(glm::radians(12.5f)));
       lightingShader.setVec3("viewPos", camera.Position);
 
       // material properties
-      lightingShader.setFloat("material.shininess", 64.0f);
+      lightingShader.setFloat("material.shininess", 32.0f);
 
       // set the intensities for light properties
-      lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
-      lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+      lightingShader.setVec3("light.ambient", 0.1f, 0.1f, 0.1f);
+      lightingShader.setVec3("light.diffuse", 0.5, 0.5f, 0.5f);
       lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 
       // attentuation constants
