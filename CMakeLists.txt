@@ -74,6 +74,7 @@ set(SOURCES
   castDirection
   castPoint
   castSpot
+  castSpotSoft
   )
 
 foreach(SOURCE ${SOURCES})
