@@ -266,6 +266,7 @@ int main()
 
 
       // view projection transformations
+      glm::mat4 model = glm::mat4(1.0f);
       glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom),
 		    (GLfloat)SCR_WIDTH / (GLfloat)SCR_HEIGHT, 0.1f, 100.0f);
       glm::mat4 view = camera.GetViewMatrix();
@@ -281,11 +282,11 @@ int main()
       glBindTexture(GL_TEXTURE_2D, specularMap);
 
 
-      glm::mat4 model = glm::mat4(1.0f);
       // render the containers
       glBindVertexArray(cubeVAO);
       for (GLuint i = 0; i < 10; i++)
 	{ 
+	  model = glm::mat4(1.0f);
 	  // world transformation
 	  model = glm::translate(model, cubePositions[i]);
 	  float angle = 20.0f * i;
