@@ -11,8 +11,8 @@
 #include <string>
 #include <vector>
 
-using namespace std::string;
-using namespace std::vector;
+using  std::string;
+using  std::vector;
 
 struct Vertex {
   // position
@@ -36,7 +36,7 @@ struct Texture {
 class Mesh {
  public:
   // mesh Data
-  vector<Vertex>    vertices;L
+  vector<Vertex>    vertices;
   vector<GLuint>    indices;
   vector<Texture>   textures;
   GLuint VAO;
@@ -70,11 +70,11 @@ class Mesh {
       else if (name == "texture_specular")
 	number = std::to_string(specularNr++); // transfer uint to stream
       else if (name == "texture_height")
-	number = std::to_string(hightNr++); // transfer uint to stream
+	number = std::to_string(heightNr++); // transfer uint to stream
 
       // now set the correct sampler to the correct texture uint
-      glUniform1i(glGetUnifromLocation(shader.ID, (name + number).c_str()),
-		  i);
+      glUniform1i(glGetUniformLocation(shader.ID,
+					    (name + number).c_str()), i);
       // finally bind the texture
       glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
@@ -91,7 +91,7 @@ class Mesh {
  private:
   // render data
   GLuint VBO;
-  GLunint EBO;
+  GLuint EBO;
 
   // initialize all the buffer objects/arrays
   void setupMesh() {
@@ -99,7 +99,7 @@ class Mesh {
     // create buffer/arrays
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    glGenbuffers(1, EBO);
+    glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
     // load data into vertex buffers
@@ -127,11 +127,11 @@ class Mesh {
     // vertex tangent
     glEnableVertexAttribArray(3);
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-			  (void)offsetof(Vertex, Tangent));
+			  (void*)offsetof(Vertex, Tangent));
     // vertex bitangent
     glEnableVertexAttribArray(4);
     glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-			  (void)offisetof(Vertex, Bitangent));
+			  (void*)offsetof(Vertex, Bitangent));
 
     glBindVertexArray(0);
   }
