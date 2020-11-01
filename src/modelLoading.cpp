@@ -10,7 +10,6 @@
 #include <shader.h>
 #include <camera.h>
 #include <model.h>
-
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow* window, GLint width, GLint height);
