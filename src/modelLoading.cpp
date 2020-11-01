@@ -79,7 +79,7 @@ int main()
       lastFrame = currentFrame;
 
       
-      glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+      glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       ourShader.use();
@@ -96,6 +96,7 @@ int main()
       model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
       model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
       ourShader.setMat4("model", model);
+
       ourModel.Draw(ourShader);
       
       processInput(window);
