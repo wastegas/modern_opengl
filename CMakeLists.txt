@@ -78,6 +78,8 @@ set(SOURCES
   castSpotSoft
   castMultiple
   modelLoading
+  girl
+  note
   )
 
 foreach(SOURCE ${SOURCES})
@@ -102,6 +104,8 @@ file(GLOB TEXTURES
 
 file(GLOB MODELS
   "${CMAKE_SOURCE_DIR}/resources/models/backpack/*.*"
+  "${CMAKE_SOURCE_DIR}/resources/models/girl/*.*"
+  "${CMAKE_SOURCE_DIR}/resources/models/note/*.*"
   )
 
 foreach(TEXTURE ${TEXTURES})
