@@ -4,7 +4,8 @@
 #include <glad/glad.h>
 
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transfom.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -20,14 +21,14 @@
 #include <map>
 #include <vector>
 
-using namespace std::string;
-using namespace std::fstream;
-using namespace std::sstream;
-using namespace std::iostream;
-using namespace std::vector;
+using  std::string;
+using  std::fstream;
+using  std::cout;
+using  std::endl;
+using  std::vector;
 
 GLuint TextureFromFile(const char *path, const string &directory,
-		       bool gama = false);
+		       bool gamma = false);
 
 class Model {
 
@@ -64,7 +65,7 @@ class Model {
     // check for errors
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
 	!scene->mRootNode) {
-      cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
+      cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << endl;
       return;
     }
 
@@ -107,8 +108,14 @@ class Model {
       vector.x = mesh->mVertices[i].x;
       vector.y = mesh->mVertices[i].y;
       vector.z = mesh->mVertices[i].z;
-      vertex.Normal = vector;
- 
+      vertex.Position = vector;
+      // normals
+      if (mesh->HasNormals()) {
+	vector.x = mesh->mNormals[i].x;
+	vector.y = mesh->mNormals[i].y;
+	vector.z = mesh->mNormals[i].z;
+	vertex.Normal = vector;
+      }
       // texture coordinates
       if (mesh->mTextureCoords[0]) { // does the mesh contain texture coords
 	glm::vec2 vec;
@@ -125,9 +132,9 @@ class Model {
 	vector.z = mesh->mTangents[i].z;
 	vertex.Tangent = vector;
 	// bitangent
-	vector.x = mesh->mBitangent.x;
-	vector.y = mesh->mBitangent.y;
-	vector.z = mesh->mBitangent.z;
+	vector.x = mesh->mBitangents[i].x;
+	vector.y = mesh->mBitangents[i].y;
+	vector.z = mesh->mBitangents[i].z;
 	vertex.Bitangent = vector;
       }
       else
@@ -196,9 +203,9 @@ class Model {
       mat->GetTexture(type, i, &str);
       // check if texture was loaded before and if so, continue
       // to the next iteration: skip loading a new texture
-      bool skip  false;
+      bool skip = false;
       for (GLuint j = 0; j < textures_loaded.size(); j++) {
-	if (strcmp(textures_loaded[j].path.date(),
+	if (strcmp(textures_loaded[j].path.data(),
 		   str.C_Str()) == 0) {
 	  textures.push_back(textures_loaded[j]);
 	  skip = true;
@@ -241,21 +248,23 @@ GLuint TextureFromFile(const char *path, const string &directory, bool gamma) {
     else if (nrComponents == 4)
       format = GL_RGBA;
 
-    glBindTexture(GL_TEXTURE_2D, TextureID);
-    glTextImage2D(GL_TEXTURE_2D, 0, format, width, height, GL_UNSIGNED_BYTE,
-		  data);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format,
+		 GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
 		    GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     stbi_image_free(data);
 
   } else {
     std::cout << "Texture failed to load at path: " <<
       path << std::endl;
+    stbi_image_free(data);
   }
 
   return textureID;
