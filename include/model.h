@@ -209,6 +209,7 @@ class Model {
 				       aiTextureType type,
 				       string typeName) {
     vector<Texture> textures;
+    
     for (GLuint i = 0; i < mat->GetTextureCount(type); i++) {
       aiString str;
       mat->GetTexture(type, i, &str);
