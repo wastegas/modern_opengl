@@ -246,6 +246,9 @@ GLuint TextureFromFile(const char *path, const string &directory, bool gamma) {
   GLuint textureID;
   glGenTextures(1, &textureID);
 
+  cout << "loading texture: " << filename << endl;
+  
+  
   int width, height, nrComponents;
   unsigned char *data = stbi_load(filename.c_str(),
 				  &width,
