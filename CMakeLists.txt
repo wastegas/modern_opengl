@@ -14,12 +14,13 @@ set(CMAKE_C_STANDARD 99)
 
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
+find_package(ASSIMP REQUIRED)
 find_package(PkgConfig REQUIRED)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 add_library("glad" "${CMAKE_SOURCE_DIR}/src/glad.c")
 target_include_directories("glad" PRIVATE "${CMAKE_SOURCE_DIR}/include")
-set(LINK_LIBS ${OPENGL_gl_LIBRARY} glfw dl)
+set(LINK_LIBS ${OPENGL_gl_LIBRARY} glfw dl assimp)
 
 
 set(SOURCES
@@ -76,6 +77,7 @@ set(SOURCES
   castSpot
   castSpotSoft
   castMultiple
+  modelLoading
   )
 
 foreach(SOURCE ${SOURCES})
@@ -98,7 +100,14 @@ file(GLOB TEXTURES
   "${CMAKE_SOURCE_DIR}/resources/*.png"
   )
 
+file(GLOB MODELS
+  "${CMAKE_SOURCE_DIR}/resources/models/backpack/*.*"
+  )
+
 foreach(TEXTURE ${TEXTURES})
   configure_file(${TEXTURE} ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 endforeach(TEXTURE)
 
+foreach(MODEL ${MODELS})
+  configure_file(${MODEL} ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+endforeach(MODEL)
