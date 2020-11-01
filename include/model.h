@@ -74,10 +74,13 @@ class Model {
 
     // process ASSIMP's root node recursively
     processNode(scene->mRootNode, scene);
+
+
   }
 
   // process a node in a recursive fashion
   void processNode(aiNode *node, const aiScene *scene) {
+
     // process each mesh located at the current node
     for (GLuint i = 0; i < node->mNumMeshes; i++) {
       // the node object only contains indices to index the
@@ -91,17 +94,22 @@ class Model {
     for (GLuint i = 0; i < node->mNumChildren; i++) {
       processNode(node->mChildren[i], scene);
     }
+
   }
 
   Mesh processMesh(aiMesh *mesh, const aiScene *scene) {
+
 
     // data to fill
     vector<Vertex> vertices;
     vector<GLuint> indices;
     vector<Texture> textures;
 
+
+    
     // walk through each of the mesh's vertices
     for (GLuint i = 0; i < mesh->mNumVertices; i++) {
+
       Vertex vertex;
       glm::vec3 vector; // we declare a place holder vector
       // positions
@@ -149,10 +157,12 @@ class Model {
       aiFace face = mesh->mFaces[i];
       // retrieve all indices of teh face and store them
       // in the index vector
-      for (GLuint j = 0; j < face.mNumIndices; i++) {
+      for (GLuint j = 0; j < face.mNumIndices; j++) {
+	//cout << "processing mesh index " <<  << endl;
 	indices.push_back(face.mIndices[j]);
       }
     }
+
 
     // process materials
     aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
@@ -186,6 +196,7 @@ class Model {
 						      "texture_height");
     textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
+
     // return a mesh object created from the extracted data
     return Mesh(vertices, indices, textures);
  
@@ -212,7 +223,7 @@ class Model {
 	  break;
 	}
       }
-      if (skip) { // if texture hasn't been loaded, load it
+      if (!skip) { // if texture hasn't been loaded, load it
 	Texture texture;
 	texture.id = TextureFromFile(str.C_Str(), this->directory);
 	texture.type = typeName;
@@ -239,6 +250,7 @@ GLuint TextureFromFile(const char *path, const string &directory, bool gamma) {
 				  &width,
 				  &height,
 				  &nrComponents, 0);
+  
   if (data) {
     GLenum format;
     if (nrComponents == 1)
@@ -266,6 +278,7 @@ GLuint TextureFromFile(const char *path, const string &directory, bool gamma) {
       path << std::endl;
     stbi_image_free(data);
   }
+
 
   return textureID;
 }
