@@ -80,6 +80,7 @@ set(SOURCES
   modelLoading
   girl
   note
+  star
   )
 
 foreach(SOURCE ${SOURCES})
@@ -106,6 +107,7 @@ file(GLOB MODELS
   "${CMAKE_SOURCE_DIR}/resources/models/backpack/*.*"
   "${CMAKE_SOURCE_DIR}/resources/models/girl/*.*"
   "${CMAKE_SOURCE_DIR}/resources/models/note/*.*"
+    "${CMAKE_SOURCE_DIR}/resources/models/star/*.*"
   )
 
 foreach(TEXTURE ${TEXTURES})
