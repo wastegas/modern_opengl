@@ -81,6 +81,7 @@ set(SOURCES
   girl
   note
   star
+  depthTest
   )
 
 foreach(SOURCE ${SOURCES})
