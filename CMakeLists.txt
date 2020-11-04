@@ -83,6 +83,7 @@ set(SOURCES
   star
   depthTest
   depthBuffer
+  stencil
   )
 
 foreach(SOURCE ${SOURCES})
