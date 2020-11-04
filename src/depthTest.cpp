@@ -72,7 +72,7 @@ int main()
 
   // configure global opengl state
   glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_ALWAYS); 
+  glDepthFunc(GL_LESS); 
   
   Shader shader("./depthTest.vs", "./depthTest.fs");
   
