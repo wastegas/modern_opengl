@@ -72,7 +72,8 @@ int main()
 
   // configure global opengl state
   glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LESS); 
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   
   Shader shader("./blendSort.vs", "./blendSort.fs");
   
@@ -120,9 +121,9 @@ int main()
 	   0.5f,  0.5f,  0.5f, 1.0f, 0.0f,
 	  -0.5f,  0.5f,  0.5f, 0.0f, 0.0f,
 	  -0.5f,  0.5f, -0.5f, 0.0f, 1.0f
-
-
   };
+
+  
 
   // plane vertices, note we set these higher than 1 (togeter with
   // GL_REPEAT as texture wrapping mode. this will cause the
@@ -138,6 +139,26 @@ int main()
 			    5.0f, -0.5f, -5.0f, 2.0f, 2.0f
   };
 
+
+  // vegetation location
+  std::vector<glm::vec3> windowPane {
+				glm::vec3(-1.5f, 0.0f, -0.48f),
+				glm::vec3(1.5, 0.0f, 0.51f),
+				glm::vec3(0.0f, 0.0f, 0.7f),
+				glm::vec3(0.5f, 0.0f, -0.6f)
+  };
+
+  float transparentVertices[] = {
+				 0.0f, 0.5f, 0.0f, 0.0f, 0.0f,
+				 0.0f, -0.5f, 0.0f, 0.0f, 1.0f,
+				 1.0f, -0.5f, 0.0f, 1.0f, 1.0f,
+
+				 0.0f, 0.5f, 0.0f, 0.0f, 0.0f,
+				 1.0f, -0.5f, 0.0f, 1.0f, 1.0f,
+				 1.0f, 0.5f, 0.0f, 1.0f, 0.0f
+  };
+  
+  
   // cube VBO, VAO
   GLuint cubeVAO, cubeVBO; 
   glGenBuffers(1, &cubeVBO); 
@@ -169,10 +190,27 @@ int main()
   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
 			(void*)(3 * sizeof(GLfloat)));
   glEnableVertexAttribArray(1);
+  // transparent VAO
+  GLuint transparentVAO, transparentVBO;
+  glGenVertexArrays(1, &transparentVAO);
+  glGenBuffers(1, &transparentVBO);
+  glBindVertexArray(transparentVAO);
+  glBindBuffer(GL_ARRAY_BUFFER, transparentVBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(transparentVertices),
+	       transparentVertices, GL_STATIC_DRAW);
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
+		       (void*)0);
+  glEnableVertexAttribArray(1);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
+			(void*)(3 * sizeof(GLfloat)));
+
+  glBindVertexArray(0);
 
   // load textures
   GLuint cubeTexture = loadTexture("./marble.jpg");
   GLuint floorTexture = loadTexture("./metal.png");
+  GLuint transparentTexture = loadTexture("./window.png");
   
   shader.use();
   shader.setInt("texture1", 0);
@@ -217,8 +255,17 @@ int main()
       glBindTexture(GL_TEXTURE_2D, floorTexture);
       shader.setMat4("model", glm::mat4(1.0f));
       glDrawArrays(GL_TRIANGLES, 0, 36);
-      glBindVertexArray(0);
-      
+
+      // window
+      glBindVertexArray(transparentVAO);
+      glBindTexture(GL_TEXTURE_2D, transparentTexture);
+      for (GLuint i = 0; i < windowPane.size(); i++) {
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, windowPane[i]);
+	shader.setMat4("model", model);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+      }
+
       glfwSwapBuffers(window);
       glfwPollEvents();
     }
