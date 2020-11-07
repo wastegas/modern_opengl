@@ -11,6 +11,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <iostream>
+#include <map>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -223,6 +224,13 @@ int main()
       lastFrame = currentFrame;
 
       processInput(window);
+
+      // sort transparent windows before rendering
+      std::map<GLfloat, glm::vec3> sorted;
+      for (GLuint i = 0; i < windowPane.size(); i++) {
+	GLfloat distance = glm::length(camera.Position - windowPane[i]);
+	sorted[distance] = windowPane[i];
+      }
       
       glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -259,9 +267,10 @@ int main()
       // window
       glBindVertexArray(transparentVAO);
       glBindTexture(GL_TEXTURE_2D, transparentTexture);
-      for (GLuint i = 0; i < windowPane.size(); i++) {
+      for (std::map<GLfloat, glm::vec3>::reverse_iterator
+	     it = sorted.rbegin(); it != sorted.rend(); ++it) {
 	model = glm::mat4(1.0f);
-	model = glm::translate(model, windowPane[i]);
+	model = glm::translate(model, it->second);
 	shader.setMat4("model", model);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
       }
