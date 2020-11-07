@@ -11,6 +11,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <iostream>
+#include <vector>
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -72,9 +74,8 @@ int main()
 
   // configure global opengl state
   glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LESS); 
   
-  Shader shader("./depthTest.vs", "./depthTest.fs");
+  Shader shader("./blendDiscard.vs", "./blendDiscard.fs");
   
   // points for our rectangle created with two triangles
   float cubeVertices[] = {
@@ -124,6 +125,25 @@ int main()
 
   };
 
+  // vegetation location
+  std::vector<glm::vec3> vegetation {
+				glm::vec3(-1.5f, 0.0f, -0.48f),
+				glm::vec3(1.5, 0.0f, 0.51f),
+				glm::vec3(0.0f, 0.0f, 0.7f),
+				glm::vec3(0.5f, 0.0f, -0.6f)
+  };
+
+  float transparentVertices[] = {
+				 0.0f, 0.5f, 0.0f, 0.0f, 0.0f,
+				 0.0f, -0.5f, 0.0f, 0.0f, 1.0f,
+				 1.0f, -0.5f, 0.0f, 1.0f, 1.0f,
+
+				 0.0f, 0.5f, 0.0f, 0.0f, 0.0f,
+				 1.0f, -0.5f, 0.0f, 1.0f, 1.0f,
+				 1.0f, 0.5f, 0.0f, 1.0f, 0.0f
+  };
+  
+
   // plane vertices, note we set these higher than 1 (togeter with
   // GL_REPEAT as texture wrapping mode. this will cause the
   // floor texture to repeat
@@ -169,11 +189,27 @@ int main()
   glEnableVertexAttribArray(1);
   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
 			(void*)(3 * sizeof(GLfloat)));
+
+  // transparent VAO
+  GLuint transparentVAO, transparentVBO;
+  glGenVertexArrays(1, &transparentVAO);
+  glGenBuffers(1, &transparentVBO);
+  glBindVertexArray(transparentVAO);
+  glBindBuffer(GL_ARRAY_BUFFER, transparentVBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(transparentVertices),
+	       transparentVertices, GL_STATIC_DRAW);
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
+		       (void*)0);
+  glEnableVertexAttribArray(1);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
+			(void*)(3 * sizeof(GLfloat)));
   glBindVertexArray(0);
   
   // load textures
   GLuint cubeTexture = loadTexture("./marble.jpg");
   GLuint floorTexture = loadTexture("./metal.png");
+  GLuint transparentTexture = loadTexture("./grass.png");
   
   shader.use();
   shader.setInt("texture1", 0);
@@ -218,7 +254,16 @@ int main()
       glBindTexture(GL_TEXTURE_2D, floorTexture);
       shader.setMat4("model", glm::mat4(1.0f));
       glDrawArrays(GL_TRIANGLES, 0, 6);
-      glBindVertexArray(0);
+
+      // vegtation
+      glBindVertexArray(transparentVAO);
+      glBindTexture(GL_TEXTURE_2D, transparentTexture);
+      for (GLuint i = 0; i < vegetation.size(); i++) {
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, vegetation[i]);
+	shader.setMat4("model", model);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+      }
       
       glfwSwapBuffers(window);
       glfwPollEvents();
