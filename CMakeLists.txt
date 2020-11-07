@@ -85,6 +85,7 @@ set(SOURCES
   depthBuffer
   stencil
   blendDiscard
+  blendSort
   )
 
 foreach(SOURCE ${SOURCES})
