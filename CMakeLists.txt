@@ -86,6 +86,7 @@ set(SOURCES
   stencil
   blendDiscard
   blendSort
+  faceCulling
   )
 
 foreach(SOURCE ${SOURCES})
