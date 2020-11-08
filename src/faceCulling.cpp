@@ -76,7 +76,7 @@ int main()
   glEnable(GL_BLEND);
   glEnable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glCullFace(GL_FRONT);
+  //  glCullFace(GL_FRONT);
   
   
   Shader shader("./faceCulling.vs", "./faceCulling.fs");
@@ -94,7 +94,7 @@ int main()
      // front face
      -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bot-left
      0.5f, -0.5f, 0.5f, 1.0f, 0.0f,  // bot-right
-     0.5f, 0.5f, 0.5f 1.0f, 1.0f,   // top-right
+     0.5f, 0.5f, 0.5f, 1.0f, 1.0f,   // top-right
      0.5f, 0.5f, 0.5f, 1.0f, 1.0f,  // top-right
      -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, // top-left
      -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bot-left
@@ -127,8 +127,6 @@ int main()
      -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top-left
      -0.5f, 0.5f, 0.5f, 0.0f, 0.0f // bot-left
     };
-          
-  };
 
   
 
