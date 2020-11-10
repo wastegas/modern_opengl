@@ -12,15 +12,15 @@
 #include "stb_image.h"
 #include <iostream>
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void framebuffer_size_callback(GLFWwindow* window, GLint width, GLint height);
 void processInput(GLFWwindow* window);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void mouse_callback(GLFWwindow* window, GLdouble xpos, GLdouble ypos);
+void scroll_callback(GLFWwindow* window, GLdouble xoffset, GLdouble yoffset);
 GLuint loadTexture(const char* path);
 
 // screen size
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1024;
+const unsigned int SCR_HEIGHT = 768;
 
 // camera positions
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -31,14 +31,14 @@ glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 // Camera
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 bool firstMouse = true;
-float lastX = 800.0f / 2.0; // half of width of window
-float lastY = 800.0f / 2.0; // half of height of window
+GLfloat lastX = 800.0f / 2.0; // half of width of window
+GLfloat lastY = 800.0f / 2.0; // half of height of window
 // field of view for zoom
-float fov = 45.0f;
+GLfloat fov = 45.0f;
 
 // frame delta time
-float deltaTime = 0.0f; // Time between current frame and last frame
-float lastFrame = 0.0f; // Time of last frame
+GLfloat deltaTime = 0.0f; // Time between current frame and last frame
+GLfloat lastFrame = 0.0f; // Time of last frame
 
 int main()
 {
@@ -72,12 +72,12 @@ int main()
 
   // configure global opengl state
   glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LESS); 
   
   Shader shader("./framebuffer.vs", "./framebuffer.fs");
+  Shader screenShader("./framebufferScreen.vs", "./framebufferScreen.fs");
   
   // points for our rectangle created with two triangles
-  float cubeVertices[] = {
+  GLfloat cubeVertices[] = {
 	  // positions      texture coords
 	  -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 
 	   0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 
@@ -124,10 +124,12 @@ int main()
 
   };
 
+  
+
   // plane vertices, note we set these higher than 1 (togeter with
   // GL_REPEAT as texture wrapping mode. this will cause the
   // floor texture to repeat
-  float planeVertices[] = {
+  GLfloat planeVertices[] = {
 			   // positions         // texture coords
 			    5.0f, -0.5f,  5.0f, 2.0f, 0.0f,
 			   -5.0f, -0.5f,  5.0f, 0.0f, 0.0f,
@@ -137,6 +139,18 @@ int main()
 			   -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
 			    5.0f, -0.5f, -5.0f, 2.0f, 2.0f
   };
+
+
+  GLfloat quadVertices[] =
+    {
+     -1.0f, 1.0f, 0.0f, 1.0f,
+     -1.0f, -1.0f, 0.0f, 0.0f,
+     1.0f, -1.0f, 1.0f, 0.0f,
+
+     -1.0f, 1.0f, 0.0f, 1.0f,
+     1.0f, -1.0f, 1.0f, 0.0f,
+     1.0f, 1.0f, 1.0f, 1.0f
+    };
 
   // cube VBO, VAO
   GLuint cubeVAO, cubeVBO; 
@@ -170,6 +184,22 @@ int main()
 			(void*)(3 * sizeof(GLfloat)));
   glEnableVertexAttribArray(1);
 
+
+  // screen quad
+  GLuint quadVAO, quadVBO;
+  glGenVertexArrays(1, &quadVAO);
+  glGenBuffers(1, &quadVBO);
+  glBindVertexArray(quadVBO);
+  glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices,
+	       GL_STATIC_DRAW);
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat),
+			    (void*)0);
+  glEnableVertexAttribArray(1);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat),
+			(void*)(2 * sizeof(GLfloat)));
+  
   // load textures
   GLuint cubeTexture = loadTexture("./container.jpg");
   GLuint floorTexture = loadTexture("./metal.png");
@@ -177,6 +207,37 @@ int main()
   shader.use();
   shader.setInt("texture1", 0);
 
+  screenShader.use();
+  screenShader.setInt("screenTexture", 0);
+
+  // framebuffer configuration
+  GLuint framebuffer;
+  glGenFramebuffers(1, &framebuffer);
+  glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+  // create a color attachment texture
+  GLuint textureColorbuffer;
+  glGenTextures(1, &textureColorbuffer);
+  glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SCR_WIDTH, SCR_HEIGHT,
+	       0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
+			textureColorbuffer, 0);
+  // create a renderbuffer object for depth and stencil attachment
+  GLuint rbo;
+  glGenRenderbuffers(1, &rbo);
+  glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+  glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8,
+			SCR_WIDTH, SCR_HEIGHT);
+  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,
+			    GL_RENDERBUFFER, rbo); // attach it
+  // check if was created
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+    std::cout << "ERROR::FRAMEBUFFER::Framebuffer is not complete!" <<
+      std::endl;
+  }
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
   while(!glfwWindowShouldClose(window))
     {
@@ -185,6 +246,13 @@ int main()
       lastFrame = currentFrame;
 
       processInput(window);
+
+      // render
+      // bind to framebuffer and draw scene
+      glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+      glEnable(GL_DEPTH_TEST); // enable depth testing
+                               // it is disabled in rendering screen->space
+                               // quad
       
       glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -218,6 +286,20 @@ int main()
       shader.setMat4("model", glm::mat4(1.0f));
       glDrawArrays(GL_TRIANGLES, 0, 36);
       glBindVertexArray(0);
+
+      // now back to the default framebuffer and draw a quad plane with
+      // the attached framebuffer color texture
+      glBindFramebuffer(GL_FRAMEBUFFER, 0);
+      glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad
+                                // is not discarded due to depth test
+      // clear relevant buffers
+      glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+      glClear(GL_COLOR_BUFFER_BIT);
+
+      screenShader.use();
+      glBindVertexArray(quadVAO);
+      glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+      glDrawArrays(GL_TRIANGLES, 0, 6);
       
       glfwSwapBuffers(window);
       glfwPollEvents();
