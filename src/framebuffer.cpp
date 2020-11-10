@@ -171,7 +171,7 @@ int main()
   glEnableVertexAttribArray(1);
 
   // load textures
-  GLuint cubeTexture = loadTexture("./marble.jpg");
+  GLuint cubeTexture = loadTexture("./container.jpg");
   GLuint floorTexture = loadTexture("./metal.png");
   
   shader.use();
