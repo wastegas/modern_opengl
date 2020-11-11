@@ -88,6 +88,7 @@ set(SOURCES
   blendSort
   faceCulling
   framebuffer
+  framebufferPost
   )
 
 foreach(SOURCE ${SOURCES})
