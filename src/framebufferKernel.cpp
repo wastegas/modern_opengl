@@ -75,8 +75,8 @@ int main()
   
   Shader shader("./framebufferPost.vs",
 		"./framebufferPost.fs");
-  Shader screenShader("./framebufferScreenPost.vs",
-		      "./framebufferScreenPost.fs");
+  Shader screenShader("./framebufferScreenKernel.vs",
+		      "./framebufferScreenKernel.fs");
   
   // points for our rectangle created with two triangles
   GLfloat cubeVertices[] = {
