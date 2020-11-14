@@ -89,6 +89,7 @@ set(SOURCES
   faceCulling
   framebuffer
   framebufferPost
+  framebufferKernel
   )
 
 foreach(SOURCE ${SOURCES})
