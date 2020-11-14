@@ -90,6 +90,7 @@ set(SOURCES
   framebuffer
   framebufferPost
   framebufferKernel
+  framebufferKernel2
   )
 
 foreach(SOURCE ${SOURCES})
