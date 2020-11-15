@@ -91,6 +91,7 @@ set(SOURCES
   framebufferPost
   framebufferKernel
   framebufferKernel2
+  cubeMapsSkybox
   )
 
 foreach(SOURCE ${SOURCES})
