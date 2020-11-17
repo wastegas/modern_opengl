@@ -94,11 +94,6 @@ set(SOURCES
   cubeMapsSkybox
   )
 
-foreach(SOURCE ${SOURCES})
-    add_executable(${SOURCE} ${CMAKE_SOURCE_DIR}/src/${SOURCE}.cpp)
-    target_link_libraries(${SOURCE} "glad" ${LINK_LIBS})
-endforeach(SOURCE)
-
 file(GLOB SHADERS
   "${CMAKE_SOURCE_DIR}/src/*.vs"
   "${CMAKE_SOURCE_DIR}/src/*.fs"
@@ -119,6 +114,10 @@ file(GLOB MODELS
   "${CMAKE_SOURCE_DIR}/resources/models/girl/*.*"
   "${CMAKE_SOURCE_DIR}/resources/models/note/*.*"
     "${CMAKE_SOURCE_DIR}/resources/models/star/*.*"
+    )
+
+file(GLOB SKYBOXIMAGES
+  "${CMAKE_SOURCE_DIR}/resources/skybox/*.jpg"
   )
 
 foreach(TEXTURE ${TEXTURES})
@@ -128,3 +127,9 @@ endforeach(TEXTURE)
 foreach(MODEL ${MODELS})
   configure_file(${MODEL} ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 endforeach(MODEL)
+
+
+foreach(SOURCE ${SOURCES})
+    add_executable(${SOURCE} ${CMAKE_SOURCE_DIR}/src/${SOURCE}.cpp)
+    target_link_libraries(${SOURCE} "glad" ${LINK_LIBS})
+endforeach(SOURCE)
