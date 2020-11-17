@@ -145,14 +145,6 @@ int main()
   };
 
 
-  // vegetation location
-  std::vector<glm::vec3> windowPane {
-				glm::vec3(-1.5f, 0.0f, -0.48f),
-				glm::vec3(1.5, 0.0f, 0.51f),
-				glm::vec3(0.0f, 0.0f, 0.7f),
-				glm::vec3(0.5f, 0.0f, -0.6f)
-  };
-
   float transparentVertices[] = {
 				 0.0f, 0.5f, 0.0f, 0.0f, 0.0f,
 				 0.0f, -0.5f, 0.0f, 0.0f, 1.0f,
