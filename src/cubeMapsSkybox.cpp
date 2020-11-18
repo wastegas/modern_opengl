@@ -128,33 +128,51 @@ int main()
      -0.5f, 0.5f, 0.5f, 0.0f, 0.0f // bot-left
     };
 
-  
+  GLfloat skyboxVertices[] =
+    {
+     //positions
+     -1.0f, 1.0f, -1.0f,
+     -1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f, 1.0f, -1.0f,
+     -1.0f, 1.0f, -1.0f,
 
-  // plane vertices, note we set these higher than 1 (togeter with
-  // GL_REPEAT as texture wrapping mode. this will cause the
-  // floor texture to repeat
-  float planeVertices[] = {
-			   // positions         // texture coords
-			    5.0f, -0.5f,  5.0f, 2.0f, 0.0f,
-			   -5.0f, -0.5f,  5.0f, 0.0f, 0.0f,
-			   -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
+     -1.0f, -1.0f, 1.0f,
+     -1.0f, -1.0f, -1.0f,
+     -1.0f, 1.0f, -1.0f,
+     -1.0f, 1.0f, -1.0f,
+     -1.0f, 1.0f, 1.0f,
+     -1.0f, -1.0f, 1.0f,
 
-			    5.0f, -0.5f,  5.0f, 2.0f, 0.0f,
-			   -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
-			    5.0f, -0.5f, -5.0f, 2.0f, 2.0f
-  };
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+     1.0f, 1.0f -1.0f,
+     1.0f, -1.0f, -1.0f,
 
+     -1.0f, -1.0f, 1.0f,
+     -1.0f, 1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+     1.0f, -1.0f, 1.0f,
+     -1.0f,-1.0f, 1.0f,
 
-  float transparentVertices[] = {
-				 0.0f, 0.5f, 0.0f, 0.0f, 0.0f,
-				 0.0f, -0.5f, 0.0f, 0.0f, 1.0f,
-				 1.0f, -0.5f, 0.0f, 1.0f, 1.0f,
+     -1.0f, 1.0f, -1.0f,
+     1.0f, 1.0f, -1.0f,
+     1.0f, 1.0f, 1.0f,
+     1.0f, 1.0f, 1.0f,
+     -1.0f, 1.0f, 1.0f,
+     -1.0f, 1.0f, -1.0f,
 
-				 0.0f, 0.5f, 0.0f, 0.0f, 0.0f,
-				 1.0f, -0.5f, 0.0f, 1.0f, 1.0f,
-				 1.0f, 0.5f, 0.0f, 1.0f, 0.0f
-  };
-  
+     -1.0f, -1.0f, -1.0f,
+     -1.0f, -1.0f, 1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, 1.0f,
+     -1.0f, -1.0f, 1.0f,
+     1.0f, -1.0f, 1.0f
+    };
   
   // cube VBO, VAO
   GLuint cubeVAO, cubeVBO; 
