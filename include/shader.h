@@ -66,7 +66,7 @@ class Shader
       {
 	glGetShaderInfoLog(vertex, 512, NULL, infoLog);
 	std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" <<
-	  infoLog << std::endl;
+	  infoLog << " " << vertexPath << std::endl;
       };
 
     // fragment shader
@@ -79,7 +79,7 @@ class Shader
       {
 	glGetShaderInfoLog(fragment, 512, NULL, infoLog);
 	std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" <<
-	  infoLog << std::endl;
+	  infoLog << " " << fragmentPath << std::endl;
       };
 	
     // Shader program
