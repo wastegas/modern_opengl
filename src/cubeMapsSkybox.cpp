@@ -19,7 +19,7 @@ void processInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 GLuint loadTexture(const char* path);
-GLuint loadCubemap(std::vector<std::string> faces);
+GLuint loadCubemap(std::vector<const char*> faces);
 // screen size
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -74,10 +74,7 @@ int main()
 
   // configure global opengl state
   glEnable(GL_DEPTH_TEST);
-  glEnable(GL_BLEND);
-  glEnable(GL_CULL_FACE);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  //  glCullFace(GL_FRONT);
+
   
   
   Shader shader("./cubeMaps.vs", "./cubeMaps.fs");
@@ -171,7 +168,7 @@ int main()
      -1.0f, -1.0f, -1.0f,
      -1.0f, -1.0f, 1.0f,
      1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, 1.0f,
+     1.0f, -1.0f, -1.0f,
      -1.0f, -1.0f, 1.0f,
      1.0f, -1.0f, 1.0f
     };
@@ -199,20 +196,15 @@ int main()
   glBindVertexArray(skyboxVAO);
   glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices),
-	       skyboxVertices, GL_STATIC_DRAW);
+	       &skyboxVertices, GL_STATIC_DRAW);
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat),
 			(void*)0);
 
-  
-			    
-
-  
-
   // load textures
   GLuint cubeTexture = loadTexture("./container.jpg");
 
-  std::vector<std::string> faces
+  std::vector<const char*> faces
     {
      "skybox/right.jpg",
      "skybox/left.jpg",
@@ -260,7 +252,7 @@ int main()
       glBindVertexArray(0);
 
       // draw skybox as last
-      glDepthFunc(GL_EQUAL); // change depth function so depth test
+      glDepthFunc(GL_LEQUAL); // change depth function so depth test
                              // passes when values are equal to the
                              // depth buffer's content
       skyboxShader.use();
@@ -278,6 +270,10 @@ int main()
       glfwSwapBuffers(window);
       glfwPollEvents();
     }
+  glDeleteVertexArrays(1, &cubeVAO);
+  glDeleteVertexArrays(1, &skyboxVAO);
+  glDeleteBuffers(1, &cubeVBO);
+  glDeleteBuffers(1, &skyboxVBO);
 
   glfwTerminate();
   
@@ -389,7 +385,7 @@ GLuint loadTexture(const char* path)
  * +Z (front)
  * -Z (back)
  */
-GLuint loadCubemap(std::vector<std::string> faces)
+GLuint loadCubemap(std::vector<const char*> faces)
 {
   GLuint textureID;
   glGenTextures(1, &textureID);
@@ -397,7 +393,7 @@ GLuint loadCubemap(std::vector<std::string> faces)
 
   GLint width, height, nrChannels;
   for (GLuint i = 0; i < faces.size(); i++) {
-    unsigned char* data = stbi_load(faces[i].c_str(), &width, &height,
+    unsigned char* data = stbi_load(faces[i], &width, &height,
 				   &nrChannels, 0);
     if (data)
       {
