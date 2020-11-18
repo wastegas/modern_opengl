@@ -83,111 +83,109 @@ int main()
   // points for our rectangle created with two triangles
   float cubeVertices[] =
     {
-     // back face
-     -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, // bot-left
-     0.5f, 0.5f, -0.5f, 1.f, 1.0f,   // top-right
-     0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // bot-right
-     0.5f, 0.5f, -0.5f, 1.0f, 1.0f,  // top-right
-     -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, // bot-left
-     -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top-left
-     // front face
-     -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bot-left
-     0.5f, -0.5f, 0.5f, 1.0f, 0.0f,  // bot-right
-     0.5f, 0.5f, 0.5f, 1.0f, 1.0f,   // top-right
-     0.5f, 0.5f, 0.5f, 1.0f, 1.0f,  // top-right
-     -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, // top-left
-     -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bot-left
-     // left face
-     -0.5f, 0.5f, 0.5f, 1.0f, 0.0f, // top-right
-     -0.5f, 0.5f, -0.5f, 1.0f, 1.0f, // top-left
-     -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bot-left
-     -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bot-left
-     -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bot-right
-     -0.5f, 0.5f, 0.5f, 1.0f, 0.0f, // top-right
-     // right face
-     0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // top-left
-     0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bot-right
-     0.5f, 0.5f, -0.5f, 1.0f, 1.0f, // top-right
-     0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // bot-right
-     0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // top-legt
-     0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bot-left
-     // bottom face
-     -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // top-right
-     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, // top-left
-     0.5f, -0.5f, 0.5f, 1.0f, 0.0f, // bot-left
-     0.5f, -0.5f, 0.5f, 1.0f, 0.0f, // bot-left
-     -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bot-right
-     -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // top-right
-     // top face
-     -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top-left
-     0.5f, 0.5f, 0.5f, 1.0f, 0.0f, // bot-right
-     0.5f, 0.5f, -0.5f, 1.0f, 1.0f, // top-right
-     0.5f, 0.5f, 0.5f, 1.0f, 0.0f, // bot-right
-     -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top-left
-     -0.5f, 0.5f, 0.5f, 0.0f, 0.0f // bot-left
+     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+     -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+     -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+     -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+     -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
 
   GLfloat skyboxVertices[] =
     {
-     //positions
-     -1.0f, 1.0f, -1.0f,
+     -1.0f,  1.0f, -1.0f,
      -1.0f, -1.0f, -1.0f,
      1.0f, -1.0f, -1.0f,
      1.0f, -1.0f, -1.0f,
-     1.0f, 1.0f, -1.0f,
-     -1.0f, 1.0f, -1.0f,
+     1.0f,  1.0f, -1.0f,
+     -1.0f,  1.0f, -1.0f,
 
-     -1.0f, -1.0f, 1.0f,
+     -1.0f, -1.0f,  1.0f,
      -1.0f, -1.0f, -1.0f,
-     -1.0f, 1.0f, -1.0f,
-     -1.0f, 1.0f, -1.0f,
-     -1.0f, 1.0f, 1.0f,
-     -1.0f, -1.0f, 1.0f,
+     -1.0f,  1.0f, -1.0f,
+     -1.0f,  1.0f, -1.0f,
+     -1.0f,  1.0f,  1.0f,
+     -1.0f, -1.0f,  1.0f,
 
      1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, 1.0f,
-     1.0f, 1.0f, 1.0f,
-     1.0f, 1.0f, 1.0f,
-     1.0f, 1.0f -1.0f,
+     1.0f, -1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f, -1.0f,
      1.0f, -1.0f, -1.0f,
 
-     -1.0f, -1.0f, 1.0f,
-     -1.0f, 1.0f, 1.0f,
-     1.0f, 1.0f, 1.0f,
-     1.0f, 1.0f, 1.0f,
-     1.0f, -1.0f, 1.0f,
-     -1.0f,-1.0f, 1.0f,
+     -1.0f, -1.0f,  1.0f,
+     -1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f, -1.0f,  1.0f,
+     -1.0f, -1.0f,  1.0f,
 
-     -1.0f, 1.0f, -1.0f,
-     1.0f, 1.0f, -1.0f,
-     1.0f, 1.0f, 1.0f,
-     1.0f, 1.0f, 1.0f,
-     -1.0f, 1.0f, 1.0f,
-     -1.0f, 1.0f, -1.0f,
+     -1.0f,  1.0f, -1.0f,
+     1.0f,  1.0f, -1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     -1.0f,  1.0f,  1.0f,
+     -1.0f,  1.0f, -1.0f,
 
      -1.0f, -1.0f, -1.0f,
-     -1.0f, -1.0f, 1.0f,
+     -1.0f, -1.0f,  1.0f,
      1.0f, -1.0f, -1.0f,
      1.0f, -1.0f, -1.0f,
-     -1.0f, -1.0f, 1.0f,
-     1.0f, -1.0f, 1.0f
+     -1.0f, -1.0f,  1.0f,
+     1.0f, -1.0f,  1.0f
     };
   
   // cube VBO, VAO
   GLuint cubeVAO, cubeVBO; 
+  glGenVertexArrays(1, &cubeVAO);
   glGenBuffers(1, &cubeVBO); 
+  glBindVertexArray(cubeVAO);
   glBindBuffer(GL_ARRAY_BUFFER, cubeVBO); 
   glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices),
-	       cubeVertices, GL_STATIC_DRAW); 
-  glGenVertexArrays(1, &cubeVAO);
-  glBindVertexArray(cubeVAO);
-  glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+	       &cubeVertices, GL_STATIC_DRAW); 
+  glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
 			(void*)0);
-  glEnableVertexAttribArray(0);
+  glEnableVertexAttribArray(1);
   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
 			(void*)(3 * sizeof(GLfloat)));
-  glEnableVertexAttribArray(1);
+
 
   // skybox VAO
   GLuint skyboxVAO, skyboxVBO;
@@ -397,7 +395,7 @@ GLuint loadCubemap(std::vector<const char*> faces)
 				   &nrChannels, 0);
     if (data)
       {
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + 1, 0, GL_RGB,
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB,
 		     width, height, 0, GL_RGB, GL_UNSIGNED_BYTE,
 		     data);
 	stbi_image_free(data);
