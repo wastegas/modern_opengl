@@ -128,8 +128,15 @@ foreach(MODEL ${MODELS})
   configure_file(${MODEL} ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 endforeach(MODEL)
 
+if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/skybox/)
+  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/skybox/)
+endif(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/skybox/)
 
+foreach(FACE ${SKYBOXIMAGES})
+  file(COPY ${FACE} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/skybox)
+endforeach(FACE)
+    
 foreach(SOURCE ${SOURCES})
-    add_executable(${SOURCE} ${CMAKE_SOURCE_DIR}/src/${SOURCE}.cpp)
-    target_link_libraries(${SOURCE} "glad" ${LINK_LIBS})
+  add_executable(${SOURCE} ${CMAKE_SOURCE_DIR}/src/${SOURCE}.cpp)
+  target_link_libraries(${SOURCE} "glad" ${LINK_LIBS})
 endforeach(SOURCE)
