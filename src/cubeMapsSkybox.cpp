@@ -12,6 +12,7 @@
 #include "stb_image.h"
 #include <iostream>
 #include <map>
+#include <vector>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -190,42 +191,37 @@ int main()
 			(void*)(3 * sizeof(GLfloat)));
   glEnableVertexAttribArray(1);
 
-  // plane VBO, VAO
-  GLuint planeVAO, planeVBO; 
-  glGenBuffers(1, &planeVBO); 
-  glBindBuffer(GL_ARRAY_BUFFER, planeVBO); 
-  glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices),
-	       planeVertices, GL_STATIC_DRAW); 
-  glGenVertexArrays(1, &planeVAO);
-  glBindVertexArray(planeVAO);
-  glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
+  // skybox VAO
+  GLuint skyboxVAO, skyboxVBO;
+  glGenVertexArrays(1, &skyboxVAO);
+  glGenBuffers(1, &skboxVBO);
+  glBindVertexArray(skyboxVAO);
+  glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices),
+	       skyboxVertices, GL_STATIC_DRAW);
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat),
 			(void*)0);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
-			(void*)(3 * sizeof(GLfloat)));
-  glEnableVertexAttribArray(1);
-  // transparent VAO
-  GLuint transparentVAO, transparentVBO;
-  glGenVertexArrays(1, &transparentVAO);
-  glGenBuffers(1, &transparentVBO);
-  glBindVertexArray(transparentVAO);
-  glBindBuffer(GL_ARRAY_BUFFER, transparentVBO);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(transparentVertices),
-	       transparentVertices, GL_STATIC_DRAW);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
-		       (void*)0);
-  glEnableVertexAttribArray(1);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
-			(void*)(3 * sizeof(GLfloat)));
 
-  glBindVertexArray(0);
+  
+			    
+
+  
 
   // load textures
-  GLuint cubeTexture = loadTexture("./marble.jpg");
-  GLuint floorTexture = loadTexture("./metal.png");
-  GLuint transparentTexture = loadTexture("./window.png");
+  GLuint cubeTexture = loadTexture("./container.jpg");
+
+  std::vector<std::string> faces
+    {
+     "skybox/right.jpg",
+     "skybox/left.jpg",
+     "skybox/top.jpg",
+     "skybox/bottom.jpg",
+     "skybox/front.jpg",
+     "skybox/back.jpg"
+    }
+
+  GLuint cubemapTexture = loadCubemap(faces);
   
   shader.use();
   shader.setInt("texture1", 0);
@@ -403,7 +399,7 @@ GLuint loadTexture(const char* path)
  * +Z (front)
  * -Z (back)
  */
-GLuint loadCubemap(vector<std::string> faces)
+GLuint loadCubemap(std::vector<std::string> faces)
 {
   GLuint textureID;
   glGenTextures(1, &textureID);
