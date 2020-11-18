@@ -19,7 +19,7 @@ void processInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 GLuint loadTexture(const char* path);
-
+GLuint loadCubemap(std::vector<std::string> faces);
 // screen size
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -80,7 +80,7 @@ int main()
   //  glCullFace(GL_FRONT);
   
   
-  Shader shader("./cubeMap.vs", "./cubeMap.fs");
+  Shader shader("./cubeMaps.vs", "./cubeMaps.fs");
   Shader skyboxShader("./skybox.vs", "./skybox.fs"); 
   
   // points for our rectangle created with two triangles
@@ -195,7 +195,7 @@ int main()
   // skybox VAO
   GLuint skyboxVAO, skyboxVBO;
   glGenVertexArrays(1, &skyboxVAO);
-  glGenBuffers(1, &skboxVBO);
+  glGenBuffers(1, &skyboxVBO);
   glBindVertexArray(skyboxVAO);
   glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices),
@@ -220,7 +220,7 @@ int main()
      "skybox/bottom.jpg",
      "skybox/front.jpg",
      "skybox/back.jpg"
-    }
+    };
 
   GLuint cubemapTexture = loadCubemap(faces);
   
@@ -238,13 +238,6 @@ int main()
 
       processInput(window);
 
-      // sort transparent windows before rendering
-      std::map<GLfloat, glm::vec3> sorted;
-      for (GLuint i = 0; i < windowPane.size(); i++) {
-	GLfloat distance = glm::length(camera.Position - windowPane[i]);
-	sorted[distance] = windowPane[i];
-      }
-      
       glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -277,8 +270,8 @@ int main()
       // skybox cube
       glBindVertexArray(skyboxVAO);
       glActiveTexture(GL_TEXTURE0);
-      glBindTexture(GL_TEXTURE_CUBE_AP, cubemapTexture);
-      glDrawyArrays(GL_TRIANGLES, 0, 36);
+      glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+      glDrawArrays(GL_TRIANGLES, 0, 36);
       glBindVertexArray(0);
       glDepthFunc(GL_LESS); // set depth func back to default
       
@@ -404,7 +397,7 @@ GLuint loadCubemap(std::vector<std::string> faces)
 
   GLint width, height, nrChannels;
   for (GLuint i = 0; i < faces.size(); i++) {
-    usigned char* data = stbi_load(faces[i].c_str(), &width, &height,
+    unsigned char* data = stbi_load(faces[i].c_str(), &width, &height,
 				   &nrChannels, 0);
     if (data)
       {
