@@ -21,8 +21,8 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 GLuint loadTexture(const char* path);
 GLuint loadCubemap(std::vector<const char*> faces);
 // screen size
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1024;
+const unsigned int SCR_HEIGHT = 768;
 
 // camera positions
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
