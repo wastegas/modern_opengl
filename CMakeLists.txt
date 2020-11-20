@@ -92,6 +92,7 @@ set(SOURCES
   framebufferKernel
   framebufferKernel2
   cubeMapsSkybox
+  cubeMapsEnviron
   )
 
 file(GLOB SHADERS
