@@ -186,7 +186,7 @@ int main()
 			(void*)0);
   glEnableVertexAttribArray(1);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat),
-			(void*)(6 * sizeof(GLfloat)));
+			(void*)(3 * sizeof(GLfloat)));
   glEnableVertexAttribArray(2);
   glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat),
 			(void*)(6 * sizeof(GLfloat)));
@@ -220,7 +220,7 @@ int main()
   GLuint cubemapTexture = loadCubemap(faces);
   
   shader.use();
-  shader.setInt("texture1", 0);
+  shader.setInt("skybox", 0);
 
   skyboxShader.use();
   skyboxShader.setInt("skybox", 0);
@@ -252,7 +252,7 @@ int main()
       // render cubes=
       glBindVertexArray(cubeVAO);
       glActiveTexture(GL_TEXTURE0);
-      glBindTexture(GL_TEXTURE_2D, cubeTexture);
+      glBindTexture(GL_TEXTURE_CUBE_MAP, cubeTexture);
       glDrawArrays(GL_TRIANGLES, 0, 36);
       glBindVertexArray(0);
 
