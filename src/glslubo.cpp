@@ -77,8 +77,11 @@ int main()
 
   
   
-  Shader shader("./cubeMapsRefract.vs", "./cubeMapsRefract.fs");
-  Shader skyboxShader("./skybox.vs", "./skybox.fs"); 
+  Shader shaderRed("./glslubo.vs", "./red.fs");
+  Shader shaderGreen("./glslubo.vs", "./green.fs");
+  Shader shaderBlue("./glslubo.vs", "./blue.fs");
+  Shader shaderYellow("./glslubo.vs", "./yellow.fs");
+
   
   // points for our rectangle created with two triangles
   float cubeVertices[] =
@@ -135,20 +138,6 @@ int main()
   glBindBuffer(GL_ARRAY_BUFFER, cubeVBO); 
   glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices),
 	       &cubeVertices, GL_STATIC_DRAW); 
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat),
-			(void*)0);
-
-
-
-  // skybox VAO
-  GLuint skyboxVAO, skyboxVBO;
-  glGenVertexArrays(1, &skyboxVAO);
-  glGenBuffers(1, &skyboxVBO);
-  glBindVertexArray(skyboxVAO);
-  glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices),
-	       &skyboxVertices, GL_STATIC_DRAW);
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat),
 			(void*)0);
@@ -221,41 +210,24 @@ int main()
       glDrawArrays(GL_TRIANGLES, 0, 36);
       // Yellow
       shaderYellow.use();
-      glm::mat4 model = glm::mat4(1.0f);
+      model = glm::mat4(1.0f);
       model = glm::translate(model, glm::vec3(-0.75f, -0.75f, 0.0f));
       shaderYellow.setMat4("model", model);
       glDrawArrays(GL_TRIANGLES, 0, 36);
       // Blue
       shaderBlue.use();
-      glm::mat4 model = glm::mat4(1.0f);
+      model = glm::mat4(1.0f);
       model = glm::translate(model, glm::vec3(0.75f, -0.75f, 0.0f));
       shaderBlue.setMat4("model", model);
       glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
-      // draw skybox as last
-      glDepthFunc(GL_LEQUAL); // change depth function so depth test
-                             // passes when values are equal to the
-                             // depth buffer's content
-      skyboxShader.use();
-      view = glm::mat4(glm::mat3(camera.GetViewMatrix()));
-      skyboxShader.setMat4("view", view);
-      skyboxShader.setMat4("projection", projection);
-      // skybox cube
-      glBindVertexArray(skyboxVAO);
-      glActiveTexture(GL_TEXTURE0);
-      glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-      glDrawArrays(GL_TRIANGLES, 0, 36);
-      glBindVertexArray(0);
-      glDepthFunc(GL_LESS); // set depth func back to default
-      
       glfwSwapBuffers(window);
       glfwPollEvents();
     }
   glDeleteVertexArrays(1, &cubeVAO);
-  glDeleteVertexArrays(1, &skyboxVAO);
   glDeleteBuffers(1, &cubeVBO);
-  glDeleteBuffers(1, &skyboxVBO);
+
 
   glfwTerminate();
   
