@@ -101,6 +101,7 @@ set(SOURCES
 file(GLOB SHADERS
   "${CMAKE_SOURCE_DIR}/src/*.vs"
   "${CMAKE_SOURCE_DIR}/src/*.fs"
+  "${CMAKE_SOURCE_DIR}/src/*.gs"
   )
 
 foreach(SHADER ${SHADERS})
