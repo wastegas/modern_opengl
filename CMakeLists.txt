@@ -94,6 +94,7 @@ set(SOURCES
   cubeMapsSkybox
   cubeMapsEnviron
   cubeMapsRefract
+  glslubo
   )
 
 file(GLOB SHADERS
