@@ -95,6 +95,7 @@ set(SOURCES
   cubeMapsEnviron
   cubeMapsRefract
   glslubo
+  geometryHouse
   )
 
 file(GLOB SHADERS
