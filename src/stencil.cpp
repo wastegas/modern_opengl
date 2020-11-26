@@ -77,8 +77,8 @@ int main()
   glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
   glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
   
-  Shader shader("./stencil.vs", "./stencil.fs");
-  Shader shaderColor("./stencil.vs", "./stencilColor.fs");  
+  Shader shader("./stencil.vs", "./stencil.fs", nullptr);
+  Shader shaderColor("./stencil.vs", "./stencilColor.fs", nullptr);  
   
   // points for our rectangle created with two triangles
   float cubeVertices[] = {

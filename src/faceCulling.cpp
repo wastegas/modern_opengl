@@ -79,7 +79,7 @@ int main()
   //  glCullFace(GL_FRONT);
   
   
-  Shader shader("./faceCulling.vs", "./faceCulling.fs");
+  Shader shader("./faceCulling.vs", "./faceCulling.fs", nullptr);
   
   // points for our rectangle created with two triangles
   float cubeVertices[] =

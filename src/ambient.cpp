@@ -64,8 +64,8 @@ int main()
   // configure global opengl state
   glEnable(GL_DEPTH_TEST);
   
-  Shader lightingShader("./colors2.vs", "./colors2.fs");
-  Shader lightCubeShader("./lighting2.vs", "./lighting2.fs");
+  Shader lightingShader("./colors2.vs", "./colors2.fs", nullptr);
+  Shader lightCubeShader("./lighting2.vs", "./lighting2.fs", nullptr);
   
   float vertices[] = {
 	  // positions      

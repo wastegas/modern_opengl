@@ -195,7 +195,7 @@ int main()
 	       vertices, GL_STATIC_DRAW); // copy our array into buffer
 
 
-  Shader ourShader("./camera_class.vs", "./camera_class.fs");
+  Shader ourShader("./camera_class.vs", "./camera_class.fs", nullptr);
 
   // vertex array object
   unsigned int VAO;

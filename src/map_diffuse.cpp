@@ -68,9 +68,9 @@ int main()
   glEnable(GL_DEPTH_TEST);
   
   Shader lightingShader("./map_diffuse.vs",
-			"./map_diffuse.fs");
+			"./map_diffuse.fs", nullptr);
   Shader lightCubeShader("./lightCubeMap_diffuse.vs",
-			 "./lightCubeMap_diffuse.fs");
+			 "./lightCubeMap_diffuse.fs", nullptr);
   
   GLfloat vertices[] = {
 	  // positions         // normals        // coords      

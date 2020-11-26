@@ -76,7 +76,7 @@ int main()
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   
-  Shader shader("./blendSort.vs", "./blendSort.fs");
+  Shader shader("./blendSort.vs", "./blendSort.fs", nullptr);
   
   // points for our rectangle created with two triangles
   float cubeVertices[] = {

@@ -113,7 +113,7 @@ int main()
 	       vertices, GL_STATIC_DRAW); // copy our array into buffer
 
 
-  Shader ourShader("./textex4.vs", "./textex4.fs");
+  Shader ourShader("./textex4.vs", "./textex4.fs", nullptr);
 
   // vertex array object
   unsigned int VAO;

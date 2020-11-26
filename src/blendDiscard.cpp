@@ -75,7 +75,7 @@ int main()
   // configure global opengl state
   glEnable(GL_DEPTH_TEST);
   
-  Shader shader("./blendDiscard.vs", "./blendDiscard.fs");
+  Shader shader("./blendDiscard.vs", "./blendDiscard.fs", nullptr);
   
   // points for our rectangle created with two triangles
   float cubeVertices[] = {

@@ -114,7 +114,7 @@ int main()
 	       vertices, GL_STATIC_DRAW); // copy our array into buffer
 
 
-  Shader ourShader("./transformation1.vs", "./transformation1.fs");
+  Shader ourShader("./transformation1.vs", "./transformation1.fs", nullptr);
 
   // vertex array object
   unsigned int VAO;

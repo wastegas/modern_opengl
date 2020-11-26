@@ -77,10 +77,10 @@ int main()
 
   
   
-  Shader shaderRed("./glslubo.vs", "./red.fs");
-  Shader shaderGreen("./glslubo.vs", "./green.fs");
-  Shader shaderBlue("./glslubo.vs", "./blue.fs");
-  Shader shaderYellow("./glslubo.vs", "./yellow.fs");
+  Shader shaderRed("./glslubo.vs", "./red.fs", nullptr);
+  Shader shaderGreen("./glslubo.vs", "./green.fs", nullptr);
+  Shader shaderBlue("./glslubo.vs", "./blue.fs", nullptr);
+  Shader shaderYellow("./glslubo.vs", "./yellow.fs", nullptr);
 
   
   // points for our rectangle created with two triangles

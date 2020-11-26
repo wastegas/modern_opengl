@@ -65,9 +65,9 @@ int main()
   glEnable(GL_DEPTH_TEST);
   
   Shader lightingShader("./material_ex1.vs",
-			"./material_ex1.fs");
+			"./material_ex1.fs", nullptr);
   Shader lightCubeShader("./lightCube_ex1.vs",
-			 "./lightCube_ex1.fs");
+			 "./lightCube_ex1.fs", nullptr);
   
   GLfloat vertices[] = {
 	  // positions      

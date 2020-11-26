@@ -77,8 +77,8 @@ int main()
 
   
   
-  Shader shader("./cubeMapsRefract.vs", "./cubeMapsRefract.fs");
-  Shader skyboxShader("./skybox.vs", "./skybox.fs"); 
+  Shader shader("./cubeMapsRefract.vs", "./cubeMapsRefract.fs", nullptr);
+  Shader skyboxShader("./skybox.vs", "./skybox.fs", nullptr); 
   
   // points for our rectangle created with two triangles
   float cubeVertices[] =

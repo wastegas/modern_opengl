@@ -67,9 +67,9 @@ int main()
   glEnable(GL_DEPTH_TEST);
   
   Shader lightingShader("./mapSpot.vs",
-			"./mapSpot.fs");
+			"./mapSpot.fs", nullptr);
   Shader lightCubeShader("./lightCubeSpot.vs",
-			 "./lightCubeSpot.fs");
+			 "./lightCubeSpot.fs", nullptr);
   
   GLfloat vertices[] = {
 	  // positions         // normals        // coords      

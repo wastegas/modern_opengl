@@ -65,7 +65,7 @@ int main()
   glEnable(GL_DEPTH_TEST);
   stbi_set_flip_vertically_on_load(true);
   
-  Shader ourShader("./modelLoading.vs", "./modelLoading.fs");
+  Shader ourShader("./modelLoading.vs", "./modelLoading.fs", nullptr);
 
   Model ourModel("./note_BLEND.obj");
 

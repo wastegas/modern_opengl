@@ -74,9 +74,9 @@ int main()
   glEnable(GL_DEPTH_TEST);
   
   Shader shader("./framebufferPost.vs",
-		"./framebufferPost.fs");
+		"./framebufferPost.fs", nullptr);
   Shader screenShader("./framebufferScreenPost.vs",
-		      "./framebufferScreenPost.fs");
+		      "./framebufferScreenPost.fs", nullptr);
   
   // points for our rectangle created with two triangles
   GLfloat cubeVertices[] = {

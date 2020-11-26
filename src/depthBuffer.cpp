@@ -74,7 +74,7 @@ int main()
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS); 
   
-  Shader shader("./depthBuffer.vs", "./depthBuffer.fs");
+  Shader shader("./depthBuffer.vs", "./depthBuffer.fs", nullptr);
   
   // points for our rectangle created with two triangles
   float cubeVertices[] = {
