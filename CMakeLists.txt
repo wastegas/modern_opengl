@@ -14,13 +14,15 @@ set(CMAKE_C_STANDARD 99)
 
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
-find_package(ASSIMP REQUIRED)
 find_package(PkgConfig REQUIRED)
+ 
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 add_library("glad" "${CMAKE_SOURCE_DIR}/src/glad.c")
 target_include_directories("glad" PRIVATE "${CMAKE_SOURCE_DIR}/include")
-set(LINK_LIBS ${OPENGL_gl_LIBRARY} glfw dl assimp)
+set(LINK_LIBS ${OPENGL_gl_LIBRARY} glfw dl
+  ${CMAKE_SOURCE_DIR}/lib/libassimp.so)
+
 
 
 set(SOURCES
