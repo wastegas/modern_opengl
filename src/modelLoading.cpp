@@ -69,7 +69,7 @@ int main()
   
   Shader ourShader("./modelLoading.vs", "./modelLoading.fs", nullptr);
 
-  Model ourModel("./backpack.obj");
+  Model ourModel("../resources/models/backpack/backpack.obj");
 
   
   while(!glfwWindowShouldClose(window))
