@@ -6,6 +6,8 @@ out VS_OUT {
   vec2 texCoords;
 } vs_out;
 
+out vec2 TexCoords;
+
 uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
@@ -13,5 +15,6 @@ uniform mat4 model;
 void main()
 {
   vs_out.texCoords = aTexCoords;
+  //TexCoords = aTexCoords;
   gl_Position = projection * view * model * vec4(aPos, 1.0f);
 }
