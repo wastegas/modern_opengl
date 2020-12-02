@@ -65,11 +65,12 @@ int main()
 
   // configure global opengl state
   glEnable(GL_DEPTH_TEST);
-  stbi_set_flip_vertically_on_load(true);
-  
-  Shader ourShader("./modelLoading.vs", "./modelLoading.fs", nullptr);
 
-  Model ourModel("./nanosuit.obj");
+  
+  Shader shader("./geometryExploding.vs", "./geometryExploding.fs",
+		"./geometryExploding.gs");
+
+  Model nanosuit("./nanosuit.obj");
 
   
   while(!glfwWindowShouldClose(window))
@@ -83,22 +84,21 @@ int main()
       glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      ourShader.use();
 
       // view/projection transformations
       glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom),
 	      (GLfloat)SCR_WIDTH / (GLfloat) SCR_HEIGHT, 1.0f, 100.0f);
       glm::mat4 view = camera.GetViewMatrix();
-      ourShader.setMat4("projection", projection);
-      ourShader.setMat4("view", view);
-
-      // render the model
       glm::mat4 model = glm::mat4(1.0f);
-      model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-      model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-      ourShader.setMat4("model", model);
+      shader.use();
+      shader.setMat4("projection", projection);
+      shader.setMat4("view", view);
+      shader.setMat4("model", model);
 
-      ourModel.Draw(ourShader);
+      shader.setFloat("time", glfwGetTime());
+
+      nanosuit.Draw(shader);
+		      
       
       processInput(window);
       
