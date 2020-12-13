@@ -99,6 +99,7 @@ set(SOURCES
   glslubo
   geometryHouse
   geometryExploding
+  geometryNormals
   )
 
 file(GLOB SHADERS
