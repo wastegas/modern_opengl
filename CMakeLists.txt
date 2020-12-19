@@ -100,6 +100,7 @@ set(SOURCES
   geometryHouse
   geometryExploding
   geometryNormals
+  instancing
   )
 
 file(GLOB SHADERS
