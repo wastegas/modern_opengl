@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/castPoint.dir/src/castPoint.cpp.o -o castPoint  libglad.a /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libglfw.so.3.3 -ldl 

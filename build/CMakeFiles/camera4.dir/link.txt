@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/camera4.dir/src/camera4.cpp.o -o camera4  libglad.a /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libglfw.so.3.3 -ldl 

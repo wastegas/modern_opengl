@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/textex1.dir/src/textex1.cpp.o -o textex1  libglad.a /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libglfw.so.3.3 -ldl 

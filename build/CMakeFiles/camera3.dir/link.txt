@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/camera3.dir/src/camera3.cpp.o -o camera3  libglad.a /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libglfw.so.3.3 -ldl 

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/shader_ex3.dir/src/shader_ex3.cpp.o -o shader_ex3  libglad.a /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libglfw.so.3.3 -ldl 

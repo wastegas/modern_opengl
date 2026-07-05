@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/trans_ex2.dir/src/trans_ex2.cpp.o -o trans_ex2  libglad.a /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libglfw.so.3.3 -ldl 

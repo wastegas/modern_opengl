@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/material1.dir/src/material1.cpp.o -o material1  libglad.a /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libglfw.so.3.3 -ldl 

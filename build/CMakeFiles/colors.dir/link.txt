@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/colors.dir/src/colors.cpp.o -o colors  libglad.a /usr/lib/x86_64-linux-gnu/libGL.so /usr/lib/x86_64-linux-gnu/libglfw.so.3.3 -ldl 
